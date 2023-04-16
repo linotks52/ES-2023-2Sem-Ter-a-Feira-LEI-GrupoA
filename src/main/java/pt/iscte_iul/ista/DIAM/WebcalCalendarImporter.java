@@ -18,14 +18,14 @@ import java.util.List;
  * @author tcast
  *
  */
-public class WebcalCalendarImporter {
+public abstract class WebcalCalendarImporter {
 	
 	/**
 	 * Function that receives a String with webcal and returns it in a workable URI
 	 * @param String
 	 * @return String
 	 */
-	public String WebcaltoURI(String uristring) {
+	public static String WebcaltoURI(String uristring) {
 		String uri = uristring;
 		String uri2 = "https";
 		String newString = uri2 + uri.substring(6);
@@ -41,7 +41,7 @@ public class WebcalCalendarImporter {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-    public List<CalendarEvent> importEventsFromWebcal(String uriString) throws URISyntaxException, IOException, ParseException {
+    public static List<CalendarEvent> importEventsFromWebcal(String uriString) throws URISyntaxException, IOException, ParseException {
         List<CalendarEvent> events = new ArrayList<>();
         URL url = new URL(uriString);
         URLConnection connection = url.openConnection();
@@ -72,7 +72,7 @@ public class WebcalCalendarImporter {
      * @param event
      * @throws ParseException
      */
-    private void parseLine(String line, CalendarEvent event) throws ParseException {
+    private static void parseLine(String line, CalendarEvent event) throws ParseException {
         if (line.startsWith("SUMMARY:")) {
             event.setTitle(line.substring(8));
         } else if (line.startsWith("DESCRIPTION:")) {
