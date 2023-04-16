@@ -21,7 +21,20 @@ import java.util.List;
 public class WebcalCalendarImporter {
 	
 	/**
-	 * Funcão que recebe um uri e cria uma lista de eventos no calendário desse URI
+	 * Function that receives a String with webcal and returns it in a workable URI
+	 * @param String
+	 * @return String
+	 */
+	public String WebcaltoURI(String uristring) {
+		String uri = uristring;
+		String uri2 = "https";
+		String newString = uri2 + uri.substring(6);
+		return newString;
+	}
+	
+	/**
+	 * Funcão que recebe um uri e cria uma lista de eventos no calendário desse URI, nota se o URI for webcal
+	 * usar a função {@link #WebcaltoURI(String)} primeiro
 	 * @param uriString
 	 * @return Lista de Eventos de um Calendário
 	 * @throws URISyntaxException
@@ -63,7 +76,7 @@ public class WebcalCalendarImporter {
         if (line.startsWith("SUMMARY:")) {
             event.setTitle(line.substring(8));
         } else if (line.startsWith("DESCRIPTION:")) {
-            event.setDescription(line.substring(12));
+            event.addDescription(line.substring(12));
         } else if (line.startsWith("DTSTART:")) {
             String dateString = line.substring(8);
             Date date = new SimpleDateFormat("yyyyMMdd'T'HHmmss").parse(dateString);
@@ -72,7 +85,10 @@ public class WebcalCalendarImporter {
             String dateString = line.substring(6);
             Date date = new SimpleDateFormat("yyyyMMdd'T'HHmmss").parse(dateString);
             event.setEndDate(date);
+        } else if (!(line.startsWith("DTSTAMP") || line.startsWith("UID"))){       	
+        	event.addDescription(line);
         }
+        
     }
 }
 
@@ -102,7 +118,7 @@ class CalendarEvent {
      * Calendar event Constructor
      */
     public CalendarEvent() {
-    	
+    	this.description = "";
     }
     
     /**
@@ -133,8 +149,11 @@ class CalendarEvent {
 	 * Sets the description of the event
 	 * @param String
 	 */
-	public void setDescription(String description) {
-		this.description = description;
+	public void addDescription(String description) {
+		String str1 = this.description;
+		String str2 = description;
+		String str3 = str1 + str2;
+		this.description = str3;
 	}
 	
 	/**
