@@ -1,7 +1,10 @@
 package pt.iscte_iul.ista.DIAM;
 
-import okhttp3.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.kohsuke.github.*;
 
 public class SaveJson{
@@ -10,9 +13,9 @@ public class SaveJson{
 		 
 	        InputStreamReader ir = new InputStreamReader(System.in);
 	        BufferedReader in = new BufferedReader(ir);
-	        String  metodo ,OndeGuardar , nome ,DfilePath , SfilePath;
+	        String  metodo ,OndeGuardar , nome ,DfilePath , SfilePath,donoR,repositorio,token;
 	        
-	        System.out.println("Especifique a Directoria onde se localiza o ficheiro Fonte\n");
+	        System.out.println("Especifique a Directoria do ficheiro Fonte\n");
 	         SfilePath=in.readLine();
 	         
 	         System.out.println("Nome que pretende dar ao ficheiro\n");
@@ -55,27 +58,35 @@ public class SaveJson{
 	        }
 	        if(metodo.contentEquals("web")){
 	        	
-	            String owner = "github_username";
-	            String repoName = "github_repository_name";
-	            String fileName = "file_name.csv";
+	        	// GitHub repository information
+	        	System.out.println("GitHub Username:\n");
+	            donoR = in.readLine();
+	            System.out.println("Repositorio GitHub:\n");
+	            repositorio = in.readLine();
+	           
 	            
-	         // GitHub API token for authentication
-	            String token = "github_api_token";
+	            // GitHub API token for authentication
+	            System.out.println("Token de autenticacao GitHub:\n");
+	            token = in.readLine();
+	            
+	            // Read the existing JSON file from disk
+	            Path path = Paths.get(SfilePath);
+	            byte[] fileContent = Files.readAllBytes(path);
 	            
 	            // Authenticate with GitHub using the API token
 	            GitHub github = new GitHubBuilder().withOAuthToken(token).build();
 	            
-	            // Get the repository to upload the file to
-	            GHRepository repository = github.getRepository(owner + "/" + repoName);
+	            // Get the repository to update the file in
+	            GHRepository repository = github.getRepository(donoR + "/" + repositorio);
 	            
-	            // Create a new file in the repository with the CSV data
+	            
+	            
+	         // Create a new file in the repository with the JSON data
 	            GHContentBuilder builder = repository.createContent();
-	            builder.content(fileContent).message("Added " + fileName).path(fileName).commit();
+	            builder.content(fileContent).message("Added " + nome).path(nome).commit();
 	            
 	            // Print a message to indicate that the file was uploaded
-	            System.out.println("File " + fileName + " was uploaded to " + owner + "/" + repoName);
+	            System.out.println("File " + nome + " was uploaded to " + donoR + "/" + repositorio);
 	          }
-	   
-	 
-	}
+	 }
 }
