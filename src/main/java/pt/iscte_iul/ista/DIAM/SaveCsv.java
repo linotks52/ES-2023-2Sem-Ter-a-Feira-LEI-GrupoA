@@ -8,25 +8,28 @@ public class SaveCsv {
 		 
 	        String OndeGuardar = "D:/Users/Utilizador/Desktop/CSVs";
 	        String nome = "OLA";
-	        String filePath=OndeGuardar + nome + ".csv"; 
+	        String DfilePath=OndeGuardar + nome + ".csv"; 
+	        String SfilePath="D:/Users/Utilizador/Desktop";
 	        
 	        try {
-	            // Create a File object
-	            File file = new File(filePath);
-	            // Create a FileOutputStream to write to the File object
-	            FileOutputStream fileOutputStream = new FileOutputStream(file);
-	            // Create a BufferedReader to read the data from the input stream of the file
-	            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+	            // Create a FileReader to read data from the source CSV file
+	            FileReader fileReader = new FileReader(SfilePath);
+	            // Create a BufferedReader to read data from the FileReader
+	            BufferedReader bufferedReader = new BufferedReader(fileReader);
+	            // Create a FileWriter to write data to the destination CSV file
+	            FileWriter fileWriter = new FileWriter(DfilePath);
+	            // Create a BufferedWriter to write data to the FileWriter
+	            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 	            String line;
-	            // Read data from the input stream and write it to the output stream
+	            // Read each line of the source CSV file and write it to the destination CSV file
 	            while ((line = bufferedReader.readLine()) != null) {
-	                fileOutputStream.write(line.getBytes());
-	                fileOutputStream.write('\n');
+	                bufferedWriter.write(line);
+	                bufferedWriter.newLine();
 	            }
-	            // Close the input stream and output stream
+	            // Close the BufferedReader and BufferedWriter
 	            bufferedReader.close();
-	            fileOutputStream.close();
-	            System.out.println("CSV file saved successfully.");
+	            bufferedWriter.close();
+	            System.out.println("Data written to the destination CSV file successfully.");
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
