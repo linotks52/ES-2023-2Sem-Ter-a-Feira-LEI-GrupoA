@@ -29,7 +29,7 @@ public class SaveJson{
 	            // Close the BufferedReader and BufferedWriter
 	            bufferedReader.close();
 	            bufferedWriter.close();
-	            System.out.println("Data written to the destination CSV file successfully.");
+	            System.out.println("Data written to the destination JSON file successfully.");
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
