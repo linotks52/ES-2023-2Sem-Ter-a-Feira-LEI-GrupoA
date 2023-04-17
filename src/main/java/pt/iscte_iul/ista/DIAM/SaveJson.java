@@ -2,14 +2,14 @@ package pt.iscte_iul.ista.DIAM;
 
 import java.io.*;
 
-public class SaveCsv {
+public class SaveJson{
 	
 	 public static void main(String[] args) {
 		 
-	        String OndeGuardar = "D:/Users/Utilizador/Desktop/CSVs/";
-	        String nome = "OLA2";
-	        String DfilePath=OndeGuardar + nome + ".csv"; 
-	        String SfilePath="D:/Users/Utilizador/Desktop/horario_exemplo.csv";
+	        String OndeGuardar = "D:/Users/Utilizador/Desktop/JSONs/";
+	        String nome = "OLA";
+	        String DfilePath=OndeGuardar + nome + ".json"; 
+	        String SfilePath="D:/Users/Utilizador/Desktop/example_1.json";
 	        
 	        try {
 	            // Create a FileReader to read data from the source CSV file
@@ -35,5 +35,3 @@ public class SaveCsv {
 	        }
 	    }
 	}
-
-
