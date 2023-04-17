@@ -2,7 +2,7 @@ package pt.iscte_iul.ista.DIAM;
 
 import java.io.*;
 
-public class SaveCsv {
+public class SaveCsv{
 	
 	 public static void main(String[] args) {
 		 
