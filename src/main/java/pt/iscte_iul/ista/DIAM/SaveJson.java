@@ -24,7 +24,7 @@ public class SaveJson{
 		InputStreamReader ir = new InputStreamReader(System.in);
 		BufferedReader in = new BufferedReader(ir);
 		BufferedReader bufferedReader = null;
-		BufferedWriter bufferedWriter= null;;
+		BufferedWriter bufferedWriter= null;
 
 		String  metodo ,OndeGuardar , nome ,DfilePath , SfilePath,donoR,repositorio,token;
 
@@ -85,6 +85,7 @@ public class SaveJson{
 
 
 			}
+		}
 			if(metodo.contentEquals("web")){
 
 				// Informacao acerca do GITHUB
@@ -118,6 +119,6 @@ public class SaveJson{
 				System.out.println("File " + nome + " was uploaded to " + donoR + "/" + repositorio);
 			}
 		}
-	}
 }
+
 
