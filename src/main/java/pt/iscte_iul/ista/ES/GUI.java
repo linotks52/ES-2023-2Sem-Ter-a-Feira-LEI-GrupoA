@@ -11,8 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Hello world!
- *
+ * @author Douglas Lino
+ * GUI que permite ao utilizador carregar ficheiros (local ou URL), salvar ficheiros e fazer conversões de formato.
  */
 	public class GUI extends JFrame implements ActionListener {
 		private JPanel cardPanel;
