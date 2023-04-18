@@ -6,7 +6,18 @@ import java.nio.file.Paths;
 
 import org.kohsuke.github.*;
 
+/**
+ * Classe que Grava um Ficheiro json numa diretoria ou repositorio no GitHub
+ * @author JoaoMariaFranco
+ *
+ */
+
 public class SaveJson{
+	/**
+	 * Funcão main que vai receber informacao do utilizador a cerca de onde ele pretend gravar um ficheiro json (web ou localmente).
+	 * 
+	 * @throws IOException
+	 */
 
 	public static void main(String[] args) throws IOException{
 
@@ -44,7 +55,7 @@ public class SaveJson{
 				bufferedWriter=new BufferedWriter(new FileWriter(DfilePath));
 
 				String line;
-				// Read each line of the source json file and write it to the destination json file
+				// Le cada linha do ficheiro json e rescreve-o no ficheiro json destino.
 				while ((line = bufferedReader.readLine()) != null) {
 					bufferedWriter.write(line);
 					bufferedWriter.newLine();
@@ -58,7 +69,7 @@ public class SaveJson{
 
 					try{
 
-						// Close the BufferedReader and BufferedWriter
+						// Fecha o bufferedReader e bufferedWriter.
 						bufferedReader.close();
 
 						bufferedWriter.close();
@@ -76,38 +87,37 @@ public class SaveJson{
 			}
 			if(metodo.contentEquals("web")){
 
-				// GitHub repository information
+				// Informacao acerca do GITHUB
 				System.out.println("GitHub Username:\n");
 				donoR = in.readLine();
 				System.out.println("Repositorio GitHub:\n");
 				repositorio = in.readLine();
 
 
-				// GitHub API token for authentication
+				// GitHub API token que serve da mesma forma que uma palavra-passe
 				System.out.println("Token de autenticacao GitHub:\n");
 				token = in.readLine();
 
-				// Read the existing JSON file from disk
+				// Le o ficheiro json existente
 				Path path = Paths.get(SfilePath);
 				byte[] fileContent = Files.readAllBytes(path);
 
-				// Authenticate with GitHub using the API token
+				// Autenticar utilizado o token do API do GitHub
 				GitHub github = new GitHubBuilder().withOAuthToken(token).build();
 
-				// Get the repository to update the file in
+				// Buscar o repositorio
 				GHRepository repository = github.getRepository(donoR + "/" + repositorio);
 
 
 
-				// Create a new file in the repository with the JSON data
+				// Criar um ficheiro novo no repositorio com os dados do ficheiro existente
 				GHContentBuilder builder = repository.createContent();
 				builder.content(fileContent).message("Added " + nome).path(nome).commit();
 
-				// Print a message to indicate that the file was uploaded
+				// Mensagem para indicar o upload
 				System.out.println("File " + nome + " was uploaded to " + donoR + "/" + repositorio);
 			}
 		}
 	}
 }
-
 
