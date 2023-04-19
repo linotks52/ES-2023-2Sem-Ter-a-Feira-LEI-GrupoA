@@ -1,4 +1,4 @@
-package pt.iscte_iul.ista.DIAM;
+package pt.iscte_iul.ista.ES;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

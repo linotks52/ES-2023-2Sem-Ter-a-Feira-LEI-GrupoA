@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>pt.iscte-iul.ista</groupId>
-  <artifactId>DIAM</artifactId>
+  <artifactId>ES</artifactId>
   <version>0.0.1</version>
 
-  <name>DIAM</name>
-  <description>A simple DIAM.</description>
+  <name>ES</name>
+  <description>A simple ES.</description>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
