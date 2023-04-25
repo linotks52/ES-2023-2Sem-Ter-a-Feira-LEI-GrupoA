@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>pt.iscte-iul.ista</groupId>
-  <artifactId>DIAM</artifactId>
+  <artifactId>ES</artifactId>
   <version>0.0.1</version>
 
-  <name>DIAM</name>
-  <description>A simple DIAM.</description>
+  <name>ES</name>
+  <description>A simple ES.</description>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -31,7 +31,51 @@
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
     </dependency>
-    
+    <dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.13</version>
+</dependency>
+
+<dependency>
+  <groupId>org.mnode.ical4j</groupId>
+  <artifactId>ical4j</artifactId>
+  <version>3.0.27</version>
+</dependency>
+
+<dependency>
+  <groupId>com.fasterxml.jackson.core</groupId>
+  <artifactId>jackson-databind</artifactId>
+  <version>2.15.0-rc1</version>
+</dependency>
+
+<dependency>
+  <groupId>javax.cache</groupId>
+  <artifactId>cache-api</artifactId>
+  <version>1.1.1</version>
+</dependency>
+
+<dependency>
+    <groupId>org.ehcache</groupId>
+    <artifactId>ehcache</artifactId>
+    <version>3.9.4</version>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpcore</artifactId>
+    <version>4.4.14</version>
+</dependency>
+<dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20220320</version>
+</dependency>
+<dependency>
+      <groupId>com.opencsv</groupId>
+      <artifactId>opencsv</artifactId>
+      <version>4.1</version>
+</dependency>
   </dependencies>
 
   <build>
