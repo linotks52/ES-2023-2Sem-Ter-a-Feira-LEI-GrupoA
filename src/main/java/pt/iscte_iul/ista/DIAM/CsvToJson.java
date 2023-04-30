@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
 public class CsvToJson {
-
+    
     public static void main(String[] args) {
         InputStream inputStream = CsvToJson.class.getClassLoader().getResourceAsStream("input.csv");
         String csvAsString = new BufferedReader(new InputStreamReader(inputStream)).lines().collect(Collectors.joining("\n"));
