@@ -1,4 +1,4 @@
-package pt.iscte_iul.ista.DIAM;
+package Load;
 
 import java.io.*;
 import java.net.URL;

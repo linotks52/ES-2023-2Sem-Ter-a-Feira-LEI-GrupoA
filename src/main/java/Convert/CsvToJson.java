@@ -1,4 +1,4 @@
-package pt.iscte_iul.ista.DIAM;
+package Convert;
 
 import org.json.CDL;
 

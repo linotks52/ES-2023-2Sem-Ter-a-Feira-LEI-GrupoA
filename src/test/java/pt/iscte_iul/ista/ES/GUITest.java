@@ -1,10 +1,10 @@
-package pt.iscte_iul.ista.DIAM;
+package pt.iscte_iul.ista.ES;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import pt.iscte_iul.ista.DIAM.GUI;
+import Timetable.GUI;
 
 class GUITest {
 

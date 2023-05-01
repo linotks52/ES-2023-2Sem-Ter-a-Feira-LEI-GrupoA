@@ -1,4 +1,4 @@
-package pt.iscte_iul.ista.DIAM;
+package Convert;
 
 import java.io.FileWriter;
 import java.io.IOException;

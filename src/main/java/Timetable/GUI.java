@@ -1,4 +1,4 @@
-package pt.iscte_iul.ista.DIAM;
+package Timetable;
 import javax.swing.*;
 
 import java.awt.CardLayout;
