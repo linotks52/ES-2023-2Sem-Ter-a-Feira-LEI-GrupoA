@@ -38,7 +38,6 @@ public class WebcaltoJson {
       record.add(a.getDescription());
       record.add(a.getStartDate().toString());
       record.add(a.getEndDate().toString());
-
       csvPrinter.printRecord(record);
     }
     csvPrinter.close();

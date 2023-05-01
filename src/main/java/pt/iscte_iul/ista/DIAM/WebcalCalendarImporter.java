@@ -84,6 +84,7 @@ public abstract class WebcalCalendarImporter {
         } else if (line.startsWith("DTEND:")) {
             String dateString = line.substring(6);
             Date date = new SimpleDateFormat("yyyyMMdd'T'HHmmss").parse(dateString);
+			System.out.println(date);
             event.setEndDate(date);
         } else if (!(line.startsWith("DTSTAMP") || line.startsWith("UID"))){       	
         	event.addDescription(line);

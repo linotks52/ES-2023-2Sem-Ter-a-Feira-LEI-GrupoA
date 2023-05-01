@@ -79,7 +79,7 @@
   <meta name="current-catalog-service-hash" content="581425c0eaaa5e5e53c5b736f58a14dbe5d38b0be425901738ad0670bd1d5a33">
 
 
-  <meta name="request-id" content="E669:7B03:852BF35:87C8810:644E7D57" data-pjax-transient="true"/><meta name="html-safe-nonce" content="f0122791046bc680bde76ae38b131258fcc07da10da3f24c7aea8c4752184f0f" data-pjax-transient="true"/><meta name="visitor-payload" content="eyJyZWZlcnJlciI6IiIsInJlcXVlc3RfaWQiOiJFNjY5OjdCMDM6ODUyQkYzNTo4N0M4ODEwOjY0NEU3RDU3IiwidmlzaXRvcl9pZCI6IjYzODM4MjM2NzU3MjQ4MjM4OTUiLCJyZWdpb25fZWRnZSI6ImZyYSIsInJlZ2lvbl9yZW5kZXIiOiJmcmEifQ==" data-pjax-transient="true"/><meta name="visitor-hmac" content="23557b9c7270ec03daa33607b272a1f29b0dbfcf24dc95123483d217d681d495" data-pjax-transient="true"/>
+  <meta name="request-id" content="DAF3:2500:8E7A99A:914A6B4:644EAEF8" data-pjax-transient="true"/><meta name="html-safe-nonce" content="589ae7d2c5b69b4b2ffa9f5b1f485f2fb3dc52405f248bd24ebc67da3b92f4d9" data-pjax-transient="true"/><meta name="visitor-payload" content="eyJyZWZlcnJlciI6IiIsInJlcXVlc3RfaWQiOiJEQUYzOjI1MDA6OEU3QTk5QTo5MTRBNkI0OjY0NEVBRUY4IiwidmlzaXRvcl9pZCI6IjQ5MjIwMjY5MDUwODE2NTUwMzIiLCJyZWdpb25fZWRnZSI6ImZyYSIsInJlZ2lvbl9yZW5kZXIiOiJmcmEifQ==" data-pjax-transient="true"/><meta name="visitor-hmac" content="50dc40eda2dfa4a2e39fd242bb1dd291ea83d51620e82f9741c4904b13fb83d2" data-pjax-transient="true"/>
 
 
     <meta name="hovercard-subject-tag" content="repository:623521832" data-turbo-transient>
@@ -586,7 +586,7 @@
           spellcheck="false"
           autocomplete="off"
         >
-        <input type="hidden" data-csrf="true" class="js-data-jump-to-suggestions-path-csrf" value="DFDbl3aKBKrgdl1vlK7GvPBvgtJ1kMVo6VotswnBeKd9aS1aAcsRTiObpDHqR7nf6Y7OpOJH4M9fRxNTIjaAew==" />
+        <input type="hidden" data-csrf="true" class="js-data-jump-to-suggestions-path-csrf" value="apTbRzEysggB2MinN2ILFaEFtK+AibueNuuu+3Czh2TrLQKWQiM0Y7qaKwC7SFBUnUWxA+sk2DMi04b42rwX0Q==" />
         <input type="hidden" class="js-site-search-type-field" name="type" >
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" aria-hidden="true" class="mr-1 header-search-key-slash"><path fill="none" stroke="#979A9C" opacity=".4" d="M3.5.5h12c1.7 0 3 1.3 3 3v13c0 1.7-1.3 3-3 3h-12c-1.7 0-3-1.3-3-3v-13c0-1.7 1.3-3 3-3z"></path><path fill="#979A9C" d="M11.8 6L8 15.1h-.9L10.8 6h1z"></path></svg>
 
@@ -1135,7 +1135,7 @@
             "
             query-endpoint="/linotks52/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/refs"
             
-            cache-key="v0:1682419766.0"
+            cache-key="v0:1682867598.0"
             current-committish="V2ViY2FsX0ltcG9ydA=="
             default-branch="bWFpbg=="
             name-with-owner="bGlub3RrczUyL0VTLTIwMjMtMlNlbS1UZXItYS1GZWlyYS1MRUktR3J1cG9B"
@@ -1188,7 +1188,7 @@
             "
             data-targets="input-demux.sinks"
             query-endpoint="/linotks52/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/refs"
-            cache-key="v0:1682419766.0"
+            cache-key="v0:1682867598.0"
             current-committish="V2ViY2FsX0ltcG9ydA=="
             default-branch="bWFpbg=="
             name-with-owner="bGlub3RrczUyL0VTLTIwMjMtMlNlbS1UZXItYS1GZWlyYS1MRUktR3J1cG9B"
@@ -1386,7 +1386,7 @@
     <div class="d-flex">
         
 <div class="ml-1" >
-  <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="BtnGroup-parent js-update-url-with-hash " data-turbo="false" action="/linotks52/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/edit/Webcal_Import/README.md" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="jDiqUC1mkJg7pU1jp_vp-HWoxxOlVs1bknLInu9kQVoQCY3DcJR96R5ffHOILFNbuV-SjXwECVTRG8FAPtSZJg" autocomplete="off" />
+  <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="BtnGroup-parent js-update-url-with-hash " data-turbo="false" action="/linotks52/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/edit/Webcal_Import/README.md" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="ybaIauIWH_yZSKwPZwSlHgU5iHT4B5napxkVp_b_OO95xhNw9gEeN4yg99x2zg6CVSDTLfBMjXi9CaUNXRgP7A" autocomplete="off" />
       <button disabled="disabled" title="You must be signed in to make or propose changes" data-hotkey="e" data-disable-with="" type="submit" data-view-component="true" class="btn-sm BtnGroup-item btn">    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-pencil">
     <path d="M11.013 1.427a1.75 1.75 0 0 1 2.474 0l1.086 1.086a1.75 1.75 0 0 1 0 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 0 1-.927-.928l.929-3.25c.081-.286.235-.547.445-.758l8.61-8.61Zm.176 4.823L9.75 4.81l-6.286 6.287a.253.253 0 0 0-.064.108l-.558 1.953 1.953-.558a.253.253 0 0 0 .108-.064Zm1.238-3.763a.25.25 0 0 0-.354 0L10.811 3.75l1.439 1.44 1.263-1.263a.25.25 0 0 0 0-.354Z"></path>
 </svg>
@@ -1396,7 +1396,7 @@
 </summary>    <div class="SelectMenu right-0">
       <div class="SelectMenu-modal width-full">
         <div class="SelectMenu-list SelectMenu-list--borderless py-2">
-          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="SelectMenu-item js-update-url-with-hash " data-turbo="false" action="/linotks52/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/edit/Webcal_Import/README.md" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="DRfhhKU-MjceGu0edrelKku24Fqls1062juDum5eEvWRJsYX-MzfRjvg3A5ZYB-Jh0G1xHzhmTWZUopkv-7KiQ" autocomplete="off" />
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="SelectMenu-item js-update-url-with-hash " data-turbo="false" action="/linotks52/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/edit/Webcal_Import/README.md" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="3cDAYn2CWtnSFkngVLDFisrB88At_HCwfHC5cWXPoNxtsFt4aZVbEsf-EjNFem4WmtiomSW3ZBJmYAnbziiX3w" autocomplete="off" />
               <button disabled="disabled" title="You must be signed in to make or propose changes" type="submit" data-view-component="true" class="btn-invisible btn width-full d-flex flex-justify-between color-fg-muted text-normal p-0">    <div class="mr-5">Edit this file</div>
               <div class="color-fg-muted">E</div>
 </button></form>
