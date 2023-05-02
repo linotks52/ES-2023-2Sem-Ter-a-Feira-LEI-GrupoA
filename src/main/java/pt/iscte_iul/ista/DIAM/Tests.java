@@ -25,10 +25,10 @@ public class Tests {
             List<CalendarEvent> events = WebcalCalendarImporter.importEventsFromWebcal(webcalUriString);
             
             for (CalendarEvent event : events) {
-                System.out.println("Title: " + event.getTitle());
-                System.out.println("Description: " + event.getDescription());
-                System.out.println("Start Date: " + event.getStartDate());
-                System.out.println("End Date: " + event.getEndDate());
+                //System.out.println("Title: " + event.getTitle());
+                //System.out.println("Description: " + event.getDescription().toString());
+                System.out.println("Start Date: " + event.getStartDate().toString());
+                //System.out.println("End Date: " + event.getEndDate());
                 System.out.println();
             }
         } catch (URISyntaxException | ParseException e) {

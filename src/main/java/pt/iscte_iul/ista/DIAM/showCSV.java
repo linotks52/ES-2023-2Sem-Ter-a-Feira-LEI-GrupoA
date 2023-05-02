@@ -92,7 +92,6 @@ public class showCSV {
              * horario.add(evento);
              */
         }
-        System.out.println(horario);
     }
 
     public static int checkData(String mes) {
