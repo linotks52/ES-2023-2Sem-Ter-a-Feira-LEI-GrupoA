@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 public class CsvToJson {
     
     public static void main(String[] args) {
-        InputStream inputStream = CsvToJson.class.getClassLoader().getResourceAsStream("input.csv");
+        InputStream inputStream = CsvToJson.class.getClassLoader().getResourceAsStream("output4.csv");
         String csvAsString = new BufferedReader(new InputStreamReader(inputStream)).lines().collect(Collectors.joining("\n"));
         String json = CDL.toJSONArray(csvAsString).toString();
         try {
-            FileWriter fw = new FileWriter("output.json");
+            FileWriter fw = new FileWriter("output1.json");
             fw.write(json);
             fw.close();
         } catch (IOException e) {

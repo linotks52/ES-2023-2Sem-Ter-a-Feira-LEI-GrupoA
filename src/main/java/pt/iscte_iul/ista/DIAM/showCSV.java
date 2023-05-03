@@ -32,9 +32,11 @@ public class showCSV {
         List<CalendarEvent> horario = new ArrayList<>();
         if (path.endsWith("csv")) {
             lerCSV(path, horario);
-        } else {
-            // File a = CsvToJson(path, horario);
-            // lerCSV(a.toString());
+        } else if (path.endsWith("json")) {
+            JsonToCsv a = new JsonToCsv();
+            String json = a.JSONtoCSV(path,"ola.csv");
+           
+            lerCSV("ola.csv", horario);
         }
 
         return horario;
@@ -104,9 +106,33 @@ public class showCSV {
 
     }
 
+public void lerJson(String path, List<CalendarEvent> horario) throws IOException{
+    Reader leitor = Files.newBufferedReader(Paths.get(path));
+        CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
+        CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
+
+        String[] cabecalho = csvReader.readNext(); // Ler a primeira linha como cabeçalho para ser removido e n ler
+
+        String[] linha;
+        while ((linha = csvReader.readNext()) != null) {
+            CalendarEvent evento = new CalendarEvent();
+            evento.setTitle(linha[0]);
+            evento.addDescription(linha[3]);
+            String[] data = linha[2].split(" ");
+            evento.setStartDate(ColocarCal(data));
+            String[] data2 = linha[3].split(" ");
+            evento.setEndDate(ColocarCal(data2));
+            horario.add(evento);
+        }
+    }
+
+
+
+
+
     public static void main(String[] args) throws ParseException, IOException {
         showCSV a = new showCSV();
-        List<CalendarEvent> eventos = a.showHorario("output4.csv");
+        List<CalendarEvent> eventos = a.showHorario("input.json");
         for (CalendarEvent evento : eventos) {
             System.out.println("Título: " + evento.getTitle());
             System.out.println("Descrição: " + evento.getDescription());
