@@ -50,47 +50,13 @@ public class showCSV {
         String[] linha;
         while ((linha = csvReader.readNext()) != null) {
             CalendarEvent evento = new CalendarEvent();
-            if (linha[0].length() != 65) {
-                evento.setTitle(linha[0]);
-                evento.addDescription(linha[3]);
-                String[] data = linha[2].split(" ");
-                evento.setStartDate(ColocarCal(data));
-                String[] data2 = linha[3].split(" ");
-                evento.setEndDate(ColocarCal(data2));
-                horario.add(evento);
-            } else {
-                if (Character.isLetter(linha[1].charAt(1))) {
-                    String newStr = linha[1].substring(0, linha[1].indexOf("Semestre")).trim();
-                    evento.setTitle(linha[0].concat(newStr));
-                    evento.addDescription(linha[1].substring(linha[1].indexOf("Semestre"), linha[1].length() - 1));
-                    String[] data = linha[2].split(" ");
-                    evento.setStartDate(ColocarCal(data));
-                    String[] data2 = linha[3].split(" ");
-                    evento.setEndDate(ColocarCal(data2));
-                    horario.add(evento);
-                } else {
-                    String newStr = linha[1].substring(0, linha[1].indexOf("Semestre"));
-                    evento.setTitle(linha[0].concat(newStr));
-                    evento.addDescription(linha[1].substring(linha[1].indexOf("Semestre"), linha[1].length() - 1));
-                    String[] data = linha[2].split(" ");
-                    evento.setStartDate(ColocarCal(data));
-                    String[] data2 = linha[3].split(" ");
-                    evento.setEndDate(ColocarCal(data2));
-                    horario.add(evento);
-                }
-
-            }
-
-            // Converter a linha em um objeto Evento
-
-            /*
-             * evento.setTitle(linha[0]);
-             * evento.addDescription(linha[3]);
-             * evento.setStartDate(new
-             * SimpleDateFormat("yyyy-MM-dd HH:mm").parse(linha[2]));
-             * evento.setEndDate(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(linha[1]));
-             * horario.add(evento);
-             */
+            evento.setTitle(linha[0]);
+            evento.addDescription(linha[3]);
+            String[] data = linha[2].split(" ");
+            evento.setStartDate(ColocarCal(data));
+            String[] data2 = linha[3].split(" ");
+            evento.setEndDate(ColocarCal(data2));
+            horario.add(evento);
         }
     }
 
