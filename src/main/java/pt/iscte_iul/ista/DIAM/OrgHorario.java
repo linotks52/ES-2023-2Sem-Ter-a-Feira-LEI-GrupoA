@@ -4,7 +4,22 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Date;
+import java.util.HashMap;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Class Responsável por o filtrar uma lista de CalendarEvents
@@ -21,7 +36,7 @@ public class OrgHorario {
      * Retorna uma Lista com os CalendarEvents que decorrem duranto o ano
      * 
      * @param CEvent é a lista a ser filtrada
-     * @param Ano é o ano para qual os eventos vão ser filtrados
+     * @param Ano    é o ano para qual os eventos vão ser filtrados
      * @return uma lista de CalendarEvents que ocorrem no ano específicado
      */
     public List<CalendarEvent> CalFiltradoAno(List<CalendarEvent> CEvent, int Ano) {
@@ -41,8 +56,8 @@ public class OrgHorario {
      * especificados
      * 
      * @param CEvent A lista de eventos do calendário a ser filtrada
-     * @param Ano O ano para o qual os eventos serão filtrados
-     * @param Mes O mês para o qual os eventos serão filtrados (1 a 12)
+     * @param Ano    O ano para o qual os eventos serão filtrados
+     * @param Mes    O mês para o qual os eventos serão filtrados (1 a 12)
      * @return Uma lista de eventos do calendário que ocorrem no mês e ano
      *         especificados
      */
@@ -56,6 +71,8 @@ public class OrgHorario {
             String[] data = c.split(" ");
             if ((Integer.parseInt(data[5]) == Ano) && (checkData(data[1]) == Mes)) {
                 eventosFiltrados.add(b);
+                Date a = new Date();
+
             }
         }
         return eventosFiltrados;
@@ -63,13 +80,16 @@ public class OrgHorario {
     }
 
     /**
-     * Retorna uma lista de eventos do calendário que ocorrem durante o mês, ano e dia específicados
+     * Retorna uma lista de eventos do calendário que ocorrem durante o mês, ano e
+     * dia específicados
      * 
      * @param CEvent A lista de eventos do calendário a ser filtrada
-     * @param Ano O ano para o qual os eventos serão filtrados
-     * @param Mes O mês para o qual os eventos serão filtrados (1 a 12)
-     * @param Dia O dia para o qual os eventos serão filtrados. Este parametro é verificado através da função diaValido
-     * @return Uma lista de eventos do calendário que ocorrem no mês, no ano e no dia especificados
+     * @param Ano    O ano para o qual os eventos serão filtrados
+     * @param Mes    O mês para o qual os eventos serão filtrados (1 a 12)
+     * @param Dia    O dia para o qual os eventos serão filtrados. Este parametro é
+     *               verificado através da função diaValido
+     * @return Uma lista de eventos do calendário que ocorrem no mês, no ano e no
+     *         dia especificados
      */
 
     public List<CalendarEvent> CalFiltradoDia(List<CalendarEvent> CEvent, int Ano, int Mes, int Dia) {
@@ -85,6 +105,36 @@ public class OrgHorario {
             }
         }
         return eventosFiltrados;
+    }
+
+   
+   /**
+     * Retorna uma lista de eventos do calendário que ocorrem durante uma semana especificada
+     * 
+     * @param CEvent A lista de eventos do calendário a ser filtrada
+     * @param Semana A semana para a qual a CEvent vai ser filtrada
+     * @return Uma lista de eventos do calendário que ocorrem na semana 
+     */
+    public List<CalendarEvent> CalFiltradoSemana(List<CalendarEvent> CEvent, int Semana) {
+        List<CalendarEvent> ListaFiltradaporSemana = new ArrayList<>();
+        for (CalendarEvent a : CEvent) {
+            int semanaevent = DateToLocalDateTime(a.getStartDate()).get(WeekFields.ISO.weekOfWeekBasedYear());
+            if (semanaevent == Semana) {
+                ListaFiltradaporSemana.add(a);
+            }
+        }
+        return ListaFiltradaporSemana;
+    }
+/**
+     * Transforma um Date em um LocalDateTime
+     * 
+     * @param date  o Date que queremos transformar
+     * @return Retorna o localdateTime criado através do date
+     */
+    public LocalDateTime DateToLocalDateTime(Date date) {
+        Instant instant = date.toInstant();
+        LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+        return localDateTime;
     }
 
     /**
@@ -125,12 +175,15 @@ public class OrgHorario {
                 throw new IllegalArgumentException("Mês inválido: " + mes);
         }
     }
-/**
-     * Verifica se o mês é valido, entre 1 - 12, e se a para cada mes esse dia existe
+
+    /**
+     * Verifica se o mês é valido, entre 1 - 12, e se a para cada mes esse dia
+     * existe
      * 
      * @param mes Número do mês que pretendemos verificar
      * @param dia Número do dia que pretendemos verificar
-     * @return Retorna true se o mês é valido e se para esse mês o dia existe, e false caso ou o mês seja inválido ou se o dia não existir nesse mês
+     * @return Retorna true se o mês é valido e se para esse mês o dia existe, e
+     *         false caso ou o mês seja inválido ou se o dia não existir nesse mês
      */
     public boolean diaValido(int mes, int dia) {
         if (mes < 1 || mes > 12) {
@@ -139,37 +192,41 @@ public class OrgHorario {
         }
         switch (mes) {
             case 2:
-             if (dia < 1 || dia > 28) {
-                System.out.println("Dia inválido para o mês de fevereiro");
-                return false;
-             }
+                if (dia < 1 || dia > 28) {
+                    System.out.println("Dia inválido para o mês de fevereiro");
+                    return false;
+                }
                 break;
             case 4:
             case 6:
             case 9:
             case 11:
-            if (dia < 1 || dia > 30) {
-                System.out.println("Dia " + dia + " inválido para o mes " + mes);
-                return false;
-            }
-            break;
+                if (dia < 1 || dia > 30) {
+                    System.out.println("Dia " + dia + " inválido para o mes " + mes);
+                    return false;
+                }
+                break;
             default:
-            if (dia < 1 || dia > 31) {
-                System.out.println("Dia " + dia + " inválido para o mes " + mes);
-                return false;
-            }
+                if (dia < 1 || dia > 31) {
+                    System.out.println("Dia " + dia + " inválido para o mes " + mes);
+                    return false;
+                }
         }
-            return true;    
-        }
-    
+        return true;
+    }
 
     public static void main(String[] args) throws ParseException, IOException {
         showCSV a = new showCSV();
         List<CalendarEvent> eventos = a.showHorario("output4.csv");
         OrgHorario b = new OrgHorario();
-        for (CalendarEvent d : b.CalFiltradoDia(eventos, 2023, 5,40)) {
-            System.out.println(d.getStartDate());
+    
+
+        for (CalendarEvent d : eventos) {
+            LocalDateTime e = b.DateToLocalDateTime(d.getStartDate());
+            System.out.println(e.get(WeekFields.ISO.weekOfWeekBasedYear()) + " " + d.getStartDate().toString());
+            // System.out.println(d.getStartDate().toString());
         }
-        
+
     }
+
 }
