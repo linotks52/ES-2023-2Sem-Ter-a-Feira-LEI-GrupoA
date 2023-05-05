@@ -1,5 +1,6 @@
 package pt.iscte_iul.ista.DIAM;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -217,7 +218,7 @@ public class OrgHorario {
 
     public static void main(String[] args) throws ParseException, IOException {
         showCSV a = new showCSV();
-        List<CalendarEvent> eventos = a.showHorario("output4.csv");
+        List<CalendarEvent> eventos = showCSV.showHorario(new File("output4.csv"));
         OrgHorario b = new OrgHorario();
     
 

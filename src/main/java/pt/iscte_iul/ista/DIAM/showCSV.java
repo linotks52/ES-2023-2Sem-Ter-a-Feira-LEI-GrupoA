@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -14,45 +13,72 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.kohsuke.github.GHCheckRun.Output;
-
 import java.util.Date;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
-//LerCSV de um CSV apenas funciona se o ficheiro vier de webcaltoJSON(), que foi alterado para webcaltoCSV
-//Irei Criar um novo que pega um JSON, transforma num CSV através do JSONtoCSV, que funcionará para aquele formato
-//LerJSON só funciona para o JSON vindo do CSVtoJSON do ficheiro do tipo específico que o professor pediu, o que tem no moodle, qualquer tipo de CSV que vier daquele formato aceita
+
 
 //FORMATOS PEDIDOS PELO PROFESSOR NESTE PROJETO - MOODLE E DO WEBCALL DO FENIX
 
+
+/**
+ * Class que trata em criar uma Lista de CalendarEvents de um ficheiro - CSV ou
+ * JSON - com os formatos do exemplo do Moodle, ou do import do Fénix.
+ * Esta lista vai ser usada para depois ser percorrida e mostrada na GUI
+ * 
+ */
 public class showCSV {
-    public List<CalendarEvent> showHorario(String path) throws ParseException, IOException {
+    /**
+     * 
+     * @param path o ficheiro a que queremos converter numa lista de eventos para
+     *             depois mostar o horário
+     * @return Lista de CalendarEvents do path que foi introduzido
+     * @throws ParseException
+     * @throws IOException
+     */
+    public static List<CalendarEvent> showHorario(File path) throws ParseException, IOException {
         List<CalendarEvent> horario = new ArrayList<>();
-        if (path.endsWith("csv")) {
-            // lerCSV(path, horario);
-        } else if (path.endsWith("json")) {
-            JsonToCsv a = new JsonToCsv();
-            String json = a.JSONtoCSV(path, "ola2.csv");
-            lerJson("ola2.csv", horario);
+
+        if (path.getAbsolutePath().endsWith("csv")) {
+
+            Reader leitor = new BufferedReader(
+                    new InputStreamReader(new FileInputStream(path.getAbsolutePath()), StandardCharsets.UTF_8));
+            System.out.println(path.getAbsolutePath());
+            CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
+            CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
+            String[] cabecalho = csvReader.readNext();
+            String[] Primlinha = csvReader.readNext();
+            char a = Primlinha[1].charAt(0);
+            if (Character.isDigit(a)) {
+                lerCSVMoodle(path, horario);
+            } else {
+                lerCSVFenix(path, horario);
+            }
+        } else if (path.getAbsolutePath().endsWith("json")) {
+            lerJsonMoodle(JsonToCsv.convert(path), horario);
         }
 
         return horario;
     }
 
-    public void lerCSV(String path, List<CalendarEvent> horario) throws ParseException, IOException {
-        Reader leitor = Files.newBufferedReader(Paths.get(path));
+    /**
+     * Lê o ficheiro CSV no formato usado pelo sistema do Fénix, e adiciona cada
+     * Evento desse ficheiro numa Lista
+     *
+     * @param a       Ficheiro CSV a ser lido
+     * @param horario A lista de CalendarEvents a qual queremos adicionar os
+     *                CalendarEvents do ficheiro
+     * @throws ParseException Caso exista algum erro no parsing da data
+     * @throws IOException    Caso exista algum erro a ler o ficheiro
+     */
+
+    public static void lerCSVFenix(File a, List<CalendarEvent> horario) throws ParseException, IOException {
+        Reader leitor = new BufferedReader(
+                new InputStreamReader(new FileInputStream(a), StandardCharsets.UTF_8));
         CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
         CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
 
@@ -70,6 +96,87 @@ public class showCSV {
             horario.add(evento);
         }
     }
+
+    /**
+     * Lê o ficheiro CSV com o formato enviado pelo professor, e adiciona a uma
+     * Lista de CalendarEvents os seus Eventos
+     *
+     * @param a       O ficheiro CSV a ser lido
+     * @param horario A lista de CalendarEvents a qual queremos adicionar os
+     *                CalendarEvents do ficheiro
+     * @throws ParseException Caso exista algum erro no parsing da data
+     * @throws IOException    Caso exista algum erro a ler o ficheiro
+     */
+
+    public static void lerCSVMoodle(File a, List<CalendarEvent> horario) throws ParseException, IOException {
+        Reader leitor = new BufferedReader(
+                new InputStreamReader(new FileInputStream(a), StandardCharsets.UTF_8));
+        CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
+        CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
+        String[] cabecalho = csvReader.readNext(); // Ler a primeira linha como cabeçalho para ser removido e n ler
+
+        String[] linha;
+
+        while ((linha = csvReader.readNext()) != null) {
+            CalendarEvent evento = new CalendarEvent();
+            evento.setTitle(linha[6]);
+            evento.addDescription(linha[0] + " " + linha[3] + " " + linha[5] + " " + linha[7] + " "
+                    + linha[8] + " " + linha[9]);
+            String[] horaINI = linha[1].split(":");
+            String[] horaFim = linha[4].split(":");
+            String[] data = linha[10].split("/");
+            if (data.length > 1) {
+                evento.setStartDate(ColocarCalJSON(horaINI, data));
+                evento.setEndDate(ColocarCalJSON(horaFim, data));
+            }
+            horario.add(evento);
+        }
+    }
+
+    /**
+     * Lê um ficheiro JSON obtido pela conversão do programa CsvToJson.java, do
+     * ficheiro CSV com o formato do ficheiro disponibilizado no Moodle
+     *
+     * @param a       Ficheiro JSON a ser lido - (Convertido para CSV antes de
+     *                entrar no programa)
+     * @param horario A lista de CalendarEvents a qual queremos adicionar os
+     *                CalendarEvents do ficheiro
+     * @throws IOException Caso exista algum erro a ler o ficheiro
+     */
+
+    public static void lerJsonMoodle(File a, List<CalendarEvent> horario) throws IOException {
+        Reader leitor = new BufferedReader(
+                new InputStreamReader(new FileInputStream(a.getAbsolutePath()), StandardCharsets.UTF_8));
+        System.out.println(a.getAbsolutePath());
+        CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
+        CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
+
+        String[] cabecalho = csvReader.readNext(); // Ler a primeira linha como cabeçalho para ser removido e n ler
+
+        String[] linha;
+        while ((linha = csvReader.readNext()) != null) {
+            CalendarEvent evento = new CalendarEvent();
+            evento.setTitle(linha[6]);
+            evento.addDescription(linha[0] + " " + linha[3] + " " + linha[5] + " " + linha[7] + " "
+                    + linha[8] + " " + linha[9]);
+            String[] horaINI = linha[1].split(":");
+            String[] horaFim = linha[4].split(":");
+            String[] data = linha[10].split("/");
+            if (data.length > 1) {
+                evento.setStartDate(ColocarCalJSON(horaINI, data));
+                evento.setEndDate(ColocarCalJSON(horaFim, data));
+            }
+            horario.add(evento);
+        }
+    }
+
+    /**
+     * Devolve o numero correspondente ao mês inserido
+     * 
+     * @param mes Abreviação do mês em ingles em 3 letras
+     * @return o número correspondente ao mês inserido
+     * @throws IllegalArgumentException Caso a abreviação não seja reconhecida
+     */
 
     public static int checkData(String mes) {
         switch (mes) {
@@ -102,10 +209,11 @@ public class showCSV {
         }
     }
 
-    public Date ColocarCalCSV(String[] data) {
+    public static Date ColocarCalCSV(String[] data) {
         Calendar cal = Calendar.getInstance();
+
         cal.set(Calendar.YEAR, Integer.parseInt(data[5]));
-        cal.set(Calendar.MONTH, Integer.parseInt(data[1]));
+        cal.set(Calendar.MONTH, checkData(data[1]));
         cal.set(Calendar.DAY_OF_MONTH, 0);
         cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(data[3].split(":")[0]));
         cal.set(Calendar.MINUTE, Integer.parseInt(data[3].split(":")[1]));
@@ -114,13 +222,26 @@ public class showCSV {
         return a;
     }
 
-    // Recebe 2 inputs, pois o CSV do PROFESSOR tem a HORA e a DATA DA AULA
-    // separado
-    public Date ColocarCalJSON(String[] hora, String[] data) {
+    /**
+     * 
+     * Cria um objeto do tipo Date a partir de duas strings representando a hora e a
+     * data da aula.
+     * Recebe 2 inputs, pois o CSV do PROFESSOR tem a HORA e a DATA DA AULA separado
+     * 
+     * @param hora um array de três strings representando a hora da aula no formato
+     *             HH:MM:SS.
+     * @param data um array de três strings representando a data da aula no formato
+     *             DD/MM/YYYY.
+     * @return um objeto do tipo Date representando a data e hora da aula.
+     * @throws NumberFormatException se as strings fornecidas não puderem ser
+     *                               convertidas em números inteiros.
+     */
+
+    public static Date ColocarCalJSON(String[] hora, String[] data) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, Integer.parseInt(data[2]));
         cal.set(Calendar.MONTH, Integer.parseInt(data[1]));
-        cal.set(Calendar.DAY_OF_MONTH,  Integer.parseInt(data[0]));
+        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(data[0]));
         cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hora[0]));
         cal.set(Calendar.MINUTE, Integer.parseInt(hora[1]));
         cal.set(Calendar.SECOND, Integer.parseInt(hora[2]));
@@ -128,38 +249,18 @@ public class showCSV {
         return a;
     }
 
-    public void lerJson(String path, List<CalendarEvent> horario) throws IOException {
-        Reader leitor = new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
-        CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
-        CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
-
-        String[] cabecalho = csvReader.readNext(); // Ler a primeira linha como cabeçalho para ser removido e n ler
-
-        String[] linha;
-        while ((linha = csvReader.readNext()) != null) {
-            CalendarEvent evento = new CalendarEvent();
-            evento.setTitle(linha[6]);
-            evento.addDescription(linha[0] + " " + linha[1] + " " + linha[3] + " " + linha[5] + " " + linha[7] + " " + linha[8] + " " + linha[9]);
-            String[] horaINI = linha[1].split(":");
-            String[] data = linha[10].split("/");
-           // System.out.println(data[2]);
-            //System.out.println(ColocarCalJSON(horaINI, data));
-           // evento.setStartDate(ColocarCalJSON(horaINI, data));
-            String[] horaFim = linha[4].split(" ");
-           // evento.setEndDate(ColocarCalJSON(horaFim, data));
-            horario.add(evento);
-        }
-    }
-
     public static void main(String[] args) throws ParseException, IOException {
-        showCSV a = new showCSV();
-        List<CalendarEvent> eventos = a.showHorario("input.json");
+
+        List<CalendarEvent> eventos = showHorario(new File(
+                "C:/Users/Utilizador/Desktop/ES/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA-3/src/main/resources/output4.csv"));
         for (CalendarEvent evento : eventos) {
-             System.out.println("Título: " + evento.getTitle());
-             System.out.println("Descrição: " + evento.getDescription());
-             System.out.println("Data de início: " + evento.getStartDate().toString());
-             System.out.println("Data de fim: " + evento.getEndDate().toString());
-             System.out.println();
+            System.out.println("Título: " + evento.getTitle());
+            System.out.println("Descrição: " + evento.getDescription());
+            if (evento.getStartDate() != null) {
+                System.out.println("Data de início: " + evento.getStartDate().toString());
+                System.out.println("Data de fim: " + evento.getEndDate().toString());
+            }
+            System.out.println();
         }
 
     }
