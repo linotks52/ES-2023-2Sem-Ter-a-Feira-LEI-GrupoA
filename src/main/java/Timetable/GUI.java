@@ -23,7 +23,7 @@ import Convert.*;
 	public class GUI extends JFrame implements ActionListener {
 		private JPanel cardPanel;
 	    private CardLayout cardLayout;
-	    private JButton load, upload, save, csvToJson, jsonToCsv, local, online, json, csv, confirm;
+	    private JButton load, upload, save, csvToJson, jsonToCsv, local, online, json, csv, confirm, return1, return2;
 	    private JTextField url, username, repository, name, token;
 	    //private JPasswordField token;
 	    private JFileChooser fc;
@@ -97,14 +97,14 @@ import Convert.*;
 	        gbc2.gridx = 1;
 	        gbc2.gridy++;
 
-	        JButton back = new JButton("Retornar");
-	        back.addActionListener(this);
-	        card2.add(back, gbc2);
+	        return1 = new JButton("Retornar");
+	        return1.addActionListener(this);
+	        card2.add(return1, gbc2);
 	        
 	        cardPanel.add(card2, "Card 2");
 	        
 	        JPanel card3 = new JPanel(new GridBagLayout());
-	        JLabel label3 = new JLabel("Seleciona a forma de gravar");
+	        JLabel label3 = new JLabel("Selecione a forma de gravar");
 	        
 	        GridBagConstraints gbc3 = new GridBagConstraints();
 	        gbc3.gridx = 1;
@@ -180,9 +180,14 @@ import Convert.*;
 	        name.setVisible(false);
 	        card3.add(name, gbc3);
 	        
-	        confirm = new JButton("Confirmar");
-	        gbc3.gridx = 1;
+	        return2 = new JButton("Retornar");
+	        gbc3.gridx = 0;
 	        gbc3.gridy++;
+	        card3.add(return2, gbc3);
+	        return2.addActionListener(this);
+	        
+	        gbc3.gridx=2;
+	        confirm = new JButton("Confirmar");
 	        confirm.setVisible(false);
 	        card3.add(confirm, gbc3);
 	        confirm.addActionListener(this);
@@ -215,6 +220,7 @@ import Convert.*;
 	    				events = WebcalCalendarImporter.importEventsFromWebcal(WebcalCalendarImporter.WebcaltoURI(url.getText()));
 	    			else 
 	    				file = URLFileDownloader.downloadFileFromURL(url.getText());
+		            current.setText(file.getName());
 		            cardLayout.show(cardPanel, "Card 2");
 				} catch (Exception e2) {
 					e2.printStackTrace();
@@ -222,30 +228,24 @@ import Convert.*;
 
 	    	}else if(e.getSource() == save) {
 	    		cardLayout.show(cardPanel, "Card 3");
-	    	}else if(e.getSource() == local) {
-	    		username.setVisible(false);
-	    		token.setVisible(false);
-	    		repository.setVisible(false);
-	    		name.setVisible(false);
-	    		confirm.setVisible(false);
-	    		label4.setVisible(false);
-	    		label5.setVisible(false);
-	    		label6.setVisible(false);
-	    		label7.setVisible(false);
-	    		csv.setVisible(true);
-	    		json.setVisible(true);
-	    	}else if(e.getSource() == csv || e.getSource() == json ) {
+	    	}else if(e.getSource() == local ) {
 	            fc.setCurrentDirectory(new File(System.getProperty("user.home")));
 
 	            int result = fc.showSaveDialog(frame);
 
 	            if (result == JFileChooser.APPROVE_OPTION) {
 	                String filePath = fc.getSelectedFile().getAbsolutePath();
-	                String[] div = filePath.split("\\.");
+	                try {
+						SaveJson.saveLocal(file.getAbsolutePath(), filePath);
+					} catch (IOException e2) {
+						e2.printStackTrace();
+					}
+	                
+	               /* String[] div = filePath.split("\\.");
 	                filePath = div[0];
-	                //System.out.println(filePath);
-	                //System.out.println("first impact "+div.length);
-	                //System.out.println("second impact "+div[0]);
+	                System.out.println(filePath);
+	                System.out.println("first impact "+div.length);
+	                System.out.println("second impact "+div[0]);
 	                if(e.getSource() == csv) {
 	                	filePath = filePath.concat(".csv");
 	                }else {
@@ -255,7 +255,8 @@ import Convert.*;
 	                    fos.write(filePath.getBytes());
 	                } catch (IOException ioe) {
 	                    ioe.printStackTrace();
-	                }
+	                } */
+	                
 	            }
 	    	}else if(e.getSource() == online) {
 	    		csv.setVisible(false);
@@ -286,19 +287,29 @@ import Convert.*;
 	                 JOptionPane.showMessageDialog(frame, "Please enter your token.");
 	                 token.requestFocus();
 	             }
-	    		try {
-					SaveJson.saveOnline(username.getText(), repository.getText(), token.getText(), file.getAbsolutePath(), name.getText());
-					System.out.println("Done?");
-				} catch (IOException ioe2) {
-					ioe2.printStackTrace();
-				}
+	    		 if(!username.getText().isEmpty() || !name.getText().isEmpty() || !repository.getText().isEmpty() || !token.getText().isEmpty()) {
+		    		try {
+						SaveJson.saveOnline(username.getText(), repository.getText(), token.getText(), file.getAbsolutePath(), name.getText());
+						System.out.println("Done?");
+					} catch (IOException ioe2) {
+						ioe2.printStackTrace();
+					}
+	    		 }
 	    	}else if(e.getSource() == csvToJson) {
 	    		System.out.println(file);
-	    		CsvToJson.convert(file);
+	    		file = CsvToJson.convert(file);
+	    		fc.setSelectedFile(file);
+	    		System.out.println(file);
+
 	    	}else if(e.getSource() == jsonToCsv) {
-	    		JsonToCsv.convert(file);
-	    	}else {
+	    		System.out.println(file);
+	    		file = JsonToCsv.convert(file);
+	    		fc.setSelectedFile(file);
+	    		System.out.println(file);
+	    	}else if(e.getSource() == return1){
 	            cardLayout.show(cardPanel, "Card 1");
+	    	}else if(e.getSource() == return2) {
+	    		cardLayout.show(cardPanel, "Card 2");
 	    	}
             
 	    }

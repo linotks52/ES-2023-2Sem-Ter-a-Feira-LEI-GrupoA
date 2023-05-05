@@ -27,12 +27,13 @@ public class JsonToCsv {
      * @return the file converted to csv
      */
     static public File convert(File f){
-       
+    	String[] name = f.getAbsolutePath().split("\\.");
+       File output = new File(name[0]+".csv");
        // InputStream inputStream = JsonToCsv.class.getClassLoader().getResourceAsStream(f.getAbsolutePath());
         try { 
             BufferedReader br = new BufferedReader(new FileReader(f.getAbsolutePath()));
             JSONArray  jsonArray = new JSONArray(new JSONTokener(br.readLine()));
-            BufferedWriter bw = new BufferedWriter(new FileWriter("input.csv"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(output));
             bw.write(CDL.toString(jsonArray));
             bw.close();
             br.close();
@@ -40,6 +41,6 @@ public class JsonToCsv {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return new File("output.csv");
+        return output;
     }
 }
