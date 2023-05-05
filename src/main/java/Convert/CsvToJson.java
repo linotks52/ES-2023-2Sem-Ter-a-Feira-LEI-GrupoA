@@ -17,7 +17,7 @@ public class CsvToJson {
      * @param  csv file that the user summits 
      * @return the file converted to json
      */
-    public FileWriter convert(File f){
+    public static FileWriter convert(File f){
     InputStream inputStream = CsvToJson.class.getClassLoader().getResourceAsStream(f.getAbsolutePath());
         String csvAsString = new BufferedReader(new InputStreamReader(inputStream)).lines().collect(Collectors.joining("\n"));
         String json = CDL.toJSONArray(csvAsString).toString();

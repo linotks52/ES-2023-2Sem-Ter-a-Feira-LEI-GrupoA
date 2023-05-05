@@ -18,7 +18,7 @@ public class JsonToCsv {
      * @param  json file that the user summits 
      * @return the file converted to csv
      */
-    public FileWriter convert(File f){
+    public static FileWriter convert(File f){
         InputStream inputStream = JsonToCsv.class.getClassLoader().getResourceAsStream(f.getAbsolutePath());
         JSONArray jsonArray = new JSONArray(new JSONTokener(inputStream));
         try {

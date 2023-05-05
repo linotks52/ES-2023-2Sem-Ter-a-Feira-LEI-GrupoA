@@ -24,7 +24,7 @@ public class SaveCsv{
 		InputStreamReader ir = new InputStreamReader(System.in);
 		BufferedReader in = new BufferedReader(ir);
 		BufferedReader bufferedReader = null;
-		BufferedWriter bufferedWriter= null;;
+		BufferedWriter bufferedWriter= null;
 
 		String  metodo ,OndeGuardar , nome ,DfilePath , SfilePath,donoR,repositorio,token;
 

@@ -23,58 +23,48 @@
 <dependency>
     <groupId>org.kohsuke</groupId>
     <artifactId>github-api</artifactId>
-    <version>1.313</version>
 </dependency>
   
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
     </dependency>
     <dependency>
     <groupId>org.apache.httpcomponents</groupId>
     <artifactId>httpclient</artifactId>
-    <version>4.5.13</version>
 </dependency>
 
 <dependency>
   <groupId>org.mnode.ical4j</groupId>
   <artifactId>ical4j</artifactId>
-  <version>3.0.27</version>
 </dependency>
 
 <dependency>
   <groupId>com.fasterxml.jackson.core</groupId>
   <artifactId>jackson-databind</artifactId>
-  <version>2.15.0-rc1</version>
 </dependency>
 
 <dependency>
   <groupId>javax.cache</groupId>
   <artifactId>cache-api</artifactId>
-  <version>1.1.1</version>
 </dependency>
 
 <dependency>
     <groupId>org.ehcache</groupId>
     <artifactId>ehcache</artifactId>
-    <version>3.9.4</version>
 </dependency>
 
 <dependency>
     <groupId>org.apache.httpcomponents</groupId>
     <artifactId>httpcore</artifactId>
-    <version>4.4.14</version>
 </dependency>
 <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
-      <version>20220320</version>
 </dependency>
 <dependency>
       <groupId>com.opencsv</groupId>
       <artifactId>opencsv</artifactId>
-      <version>4.1</version>
 </dependency>
   </dependencies>
 
@@ -129,4 +119,58 @@
       </plugin>
     </plugins>
   </reporting>
+  <dependencyManagement>
+  	<dependencies>
+  		<dependency>
+  			<groupId>junit</groupId>
+  			<artifactId>junit</artifactId>
+  			<version>3.8.1</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.kohsuke</groupId>
+  			<artifactId>github-api</artifactId>
+  			<version>1.313</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.apache.httpcomponents</groupId>
+  			<artifactId>httpclient</artifactId>
+  			<version>4.5.13</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.mnode.ical4j</groupId>
+  			<artifactId>ical4j</artifactId>
+  			<version>3.0.27</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>com.fasterxml.jackson.core</groupId>
+  			<artifactId>jackson-databind</artifactId>
+  			<version>2.15.0-rc1</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>javax.cache</groupId>
+  			<artifactId>cache-api</artifactId>
+  			<version>1.1.1</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.ehcache</groupId>
+  			<artifactId>ehcache</artifactId>
+  			<version>3.9.4</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.apache.httpcomponents</groupId>
+  			<artifactId>httpcore</artifactId>
+  			<version>4.4.14</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.json</groupId>
+  			<artifactId>json</artifactId>
+  			<version>20220320</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>com.opencsv</groupId>
+  			<artifactId>opencsv</artifactId>
+  			<version>4.1</version>
+  		</dependency>
+  	</dependencies>
+  </dependencyManagement>
 </project>
