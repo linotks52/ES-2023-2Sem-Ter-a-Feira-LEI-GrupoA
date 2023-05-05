@@ -1,12 +1,16 @@
 package pt.iscte_iul.ista.DIAM;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
@@ -27,16 +31,21 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
+//LerCSV de um CSV apenas funciona se o ficheiro vier de webcaltoJSON(), que foi alterado para webcaltoCSV
+//Irei Criar um novo que pega um JSON, transforma num CSV através do JSONtoCSV, que funcionará para aquele formato
+//LerJSON só funciona para o JSON vindo do CSVtoJSON do ficheiro do tipo específico que o professor pediu, o que tem no moodle, qualquer tipo de CSV que vier daquele formato aceita
+
+//FORMATOS PEDIDOS PELO PROFESSOR NESTE PROJETO - MOODLE E DO WEBCALL DO FENIX
+
 public class showCSV {
     public List<CalendarEvent> showHorario(String path) throws ParseException, IOException {
         List<CalendarEvent> horario = new ArrayList<>();
         if (path.endsWith("csv")) {
-            lerCSV(path, horario);
+            // lerCSV(path, horario);
         } else if (path.endsWith("json")) {
             JsonToCsv a = new JsonToCsv();
-            String json = a.JSONtoCSV(path,"ola.csv");
-           
-            lerCSV("ola.csv", horario);
+            String json = a.JSONtoCSV(path, "ola2.csv");
+            lerJson("ola2.csv", horario);
         }
 
         return horario;
@@ -55,9 +64,9 @@ public class showCSV {
             evento.setTitle(linha[0]);
             evento.addDescription(linha[3]);
             String[] data = linha[2].split(" ");
-            evento.setStartDate(ColocarCal(data));
+            evento.setStartDate(ColocarCalCSV(data));
             String[] data2 = linha[3].split(" ");
-            evento.setEndDate(ColocarCal(data2));
+            evento.setEndDate(ColocarCalCSV(data2));
             horario.add(evento);
         }
     }
@@ -93,21 +102,34 @@ public class showCSV {
         }
     }
 
-    public Date ColocarCal(String[] data) {
+    public Date ColocarCalCSV(String[] data) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, Integer.parseInt(data[5]));
-        cal.set(Calendar.MONTH, checkData(data[1]));
+        cal.set(Calendar.MONTH, Integer.parseInt(data[1]));
         cal.set(Calendar.DAY_OF_MONTH, 0);
         cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(data[3].split(":")[0]));
         cal.set(Calendar.MINUTE, Integer.parseInt(data[3].split(":")[1]));
         cal.set(Calendar.SECOND, Integer.parseInt(data[3].split(":")[2]));
         Date a = cal.getTime();
         return a;
-
     }
 
-public void lerJson(String path, List<CalendarEvent> horario) throws IOException{
-    Reader leitor = Files.newBufferedReader(Paths.get(path));
+    // Recebe 2 inputs, pois o CSV do PROFESSOR tem a HORA e a DATA DA AULA
+    // separado
+    public Date ColocarCalJSON(String[] hora, String[] data) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, Integer.parseInt(data[2]));
+        cal.set(Calendar.MONTH, Integer.parseInt(data[1]));
+        cal.set(Calendar.DAY_OF_MONTH,  Integer.parseInt(data[0]));
+        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hora[0]));
+        cal.set(Calendar.MINUTE, Integer.parseInt(hora[1]));
+        cal.set(Calendar.SECOND, Integer.parseInt(hora[2]));
+        Date a = cal.getTime();
+        return a;
+    }
+
+    public void lerJson(String path, List<CalendarEvent> horario) throws IOException {
+        Reader leitor = new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
         CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
         CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
 
@@ -116,28 +138,29 @@ public void lerJson(String path, List<CalendarEvent> horario) throws IOException
         String[] linha;
         while ((linha = csvReader.readNext()) != null) {
             CalendarEvent evento = new CalendarEvent();
-            evento.setTitle(linha[0]);
-            evento.addDescription(linha[3]);
-            String[] data = linha[2].split(" ");
-            evento.setStartDate(ColocarCal(data));
-            String[] data2 = linha[3].split(" ");
-            evento.setEndDate(ColocarCal(data2));
+            evento.setTitle(linha[6]);
+            evento.addDescription(linha[0] + " " + linha[1] + " " + linha[3] + " " + linha[5] + " " + linha[7] + " " + linha[8] + " " + linha[9]);
+            String[] horaINI = linha[1].split(":");
+            String[] data = linha[10].split("/");
+           // System.out.println(data[2]);
+            //System.out.println(ColocarCalJSON(horaINI, data));
+           // evento.setStartDate(ColocarCalJSON(horaINI, data));
+            String[] horaFim = linha[4].split(" ");
+           // evento.setEndDate(ColocarCalJSON(horaFim, data));
             horario.add(evento);
         }
     }
-
-
-
-
 
     public static void main(String[] args) throws ParseException, IOException {
         showCSV a = new showCSV();
         List<CalendarEvent> eventos = a.showHorario("input.json");
         for (CalendarEvent evento : eventos) {
-            System.out.println("Título: " + evento.getTitle());
-            System.out.println("Descrição: " + evento.getDescription());
-            System.out.println("Data de início: " + evento.getStartDate().toString());
-            System.out.println("Data de fim: " + evento.getEndDate().toString());
+             System.out.println("Título: " + evento.getTitle());
+             System.out.println("Descrição: " + evento.getDescription());
+             System.out.println("Data de início: " + evento.getStartDate().toString());
+             System.out.println("Data de fim: " + evento.getEndDate().toString());
+             System.out.println();
         }
+
     }
 }
