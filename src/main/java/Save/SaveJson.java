@@ -18,6 +18,22 @@ public class SaveJson{
 	 * 
 	 * @throws IOException
 	 */
+	
+	public static void saveOnline(String username, String repository, String token, String path, String name) throws IOException{
+		Path file = Paths.get(path);
+		byte[] fileContent = Files.readAllBytes(file);
+
+		// Autenticar utilizado o token do API do GitHub
+		GitHub github = new GitHubBuilder().withOAuthToken(token).build();
+
+		// Buscar o repositorio
+		GHRepository connect = github.getRepository(username + "/" + repository);
+
+		// Criar um ficheiro novo no repositorio com os dados do ficheiro existente
+		GHContentBuilder builder = connect.createContent();
+		builder.content(fileContent).message("Added " + name).path(name).commit();
+		System.out.println("File " + name + " was uploaded to " + username + "/" + repository);
+	}
 
 	public static void main(String[] args) throws IOException{
 
@@ -86,39 +102,9 @@ public class SaveJson{
 
 			}
 		}
-			if(metodo.contentEquals("web")){
-
-				// Informacao acerca do GITHUB
-				System.out.println("GitHub Username:\n");
-				donoR = in.readLine();
-				System.out.println("Repositorio GitHub:\n");
-				repositorio = in.readLine();
-
-
-				// GitHub API token que serve da mesma forma que uma palavra-passe
-				System.out.println("Token de autenticacao GitHub:\n");
-				token = in.readLine();
-
-				// Le o ficheiro json existente
-				Path path = Paths.get(SfilePath);
-				byte[] fileContent = Files.readAllBytes(path);
-
-				// Autenticar utilizado o token do API do GitHub
-				GitHub github = new GitHubBuilder().withOAuthToken(token).build();
-
-				// Buscar o repositorio
-				GHRepository repository = github.getRepository(donoR + "/" + repositorio);
-
-
-
-				// Criar um ficheiro novo no repositorio com os dados do ficheiro existente
-				GHContentBuilder builder = repository.createContent();
-				builder.content(fileContent).message("Added " + nome).path(nome).commit();
-
-				// Mensagem para indicar o upload
-				System.out.println("File " + nome + " was uploaded to " + donoR + "/" + repositorio);
-			}
-		}
+		
+		
+	}
 }
 
 

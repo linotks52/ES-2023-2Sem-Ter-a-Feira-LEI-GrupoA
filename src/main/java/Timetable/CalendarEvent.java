@@ -2,6 +2,14 @@ package Timetable;
 
 import java.util.Date;
 
+
+/**
+ * Classe de eventos de Calendario
+ * @author tcast
+ * @see #CalendarEvent()
+ * @see #CalendarEvent(String title, String description, Date startDate, Date endDate)
+ */
+
 public class CalendarEvent {
 	
 	/**
@@ -11,7 +19,11 @@ public class CalendarEvent {
 	 * @param Date
 	 * @param Date
 	 */
-    public CalendarEvent(Date startDate, Date endDate, String title, String description) {
+
+
+
+    public CalendarEvent(String title, String description, Date startDate, Date endDate) {
+
 		this.title = title;
 		this.description = description;
 		this.startDate = startDate;
@@ -98,4 +110,8 @@ public class CalendarEvent {
     private Date endDate;
     
  
+
 }
+
+
+
