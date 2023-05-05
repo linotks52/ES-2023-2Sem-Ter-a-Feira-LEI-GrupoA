@@ -12,11 +12,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 
+/**
+ * Classe que trata da conversão de um Ficheiro JSON para um ficheiro CSV
+ */
 public class JsonToCsv {
 
-    public static void main(String[] args) {
-        convert(new File("C:/Users/Utilizador/Desktop/ES/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA-3/src/main/resources/input.json"));
-    }
  /**
      *  A funçao converte de json to csv
      * 
@@ -39,5 +39,7 @@ public class JsonToCsv {
         }
         return new File("output.csv");
     }
-
+    public static void main(String[] args) {
+        convert(new File("C:/Users/Utilizador/Desktop/ES/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA-3/src/main/resources/input.json"));
+    }
 }
