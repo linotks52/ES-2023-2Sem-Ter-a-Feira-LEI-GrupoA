@@ -26,7 +26,7 @@ public class SobreposicaoHorario {
      * @return Mapa contendo as datas e horas com sobreposição de eventos e uma
      *         lista com os CalendarEvents que ocorrem nessa data
      */
-    public Map<Date, List<CalendarEvent>> SobreposicaoHorario(List<CalendarEvent> Cevents) {
+    public static Map<Date, List<CalendarEvent>> SobreposicaoHorario(List<CalendarEvent> Cevents) {
         Map<Date, List<CalendarEvent>> mapa = new HashMap<>();
         Map<Date, List<CalendarEvent>> mapaComSobreposicoes = new HashMap<>();
 
@@ -57,8 +57,7 @@ public class SobreposicaoHorario {
                 new Date(2022, 5, 12, 17, 0, 0));
         eventos.add(b);
         eventos.add(b);
-        SobreposicaoHorario c = new SobreposicaoHorario();
-        Map<Date, List<CalendarEvent>> mapa = c.SobreposicaoHorario(eventos);
+        Map<Date, List<CalendarEvent>> mapa = SobreposicaoHorario.SobreposicaoHorario(eventos);
 
         for (Date d : mapa.keySet()) {
             int count = 0;
