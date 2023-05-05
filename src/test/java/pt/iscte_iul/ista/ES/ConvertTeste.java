@@ -1,4 +1,4 @@
-package Convert;
+package pt.iscte_iul.ista.ES;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,6 +10,7 @@ import java.nio.file.Files;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import Convert.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,7 +19,7 @@ import java.io.FileReader;
 import java.nio.Buffer;
 import java.util.stream.Stream;
 
-public class TestesUnitarios {
+public class ConvertTeste {
     //json to csv
     /**
      *
@@ -26,7 +27,7 @@ public class TestesUnitarios {
     @Test
     public void jsonToCsv(){
     JsonToCsv jtc = new JsonToCsv();
-    File f = new File("testeinput.json");
+    File f = new File("input.json");
     File out = jtc.convert(f);
     try {
         File f1 = new File("default.csv");
@@ -39,10 +40,10 @@ public class TestesUnitarios {
     }
    
     }
-
+    @Test
     public void csvToJson(){
         CsvToJson ctj  = new CsvToJson();
-        File f = new File("testeinput.csv");
+        File f = new File("input.csv");
         File out = ctj.convert(f);
         try {
             File f1 = new File("default.json");
