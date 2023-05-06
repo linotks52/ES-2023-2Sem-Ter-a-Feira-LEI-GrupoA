@@ -34,6 +34,6 @@ public class CsvToJson {
         return new File("output.json");
     }
     public static void main(String[] args) {
-        convert(new File("/home/pereira/aulas/ES/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA-3/output.csv"));
+        convert(new File("C:/Users/Utilizador/Desktop/ES/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA-3/output4.csv"));
     }
 }

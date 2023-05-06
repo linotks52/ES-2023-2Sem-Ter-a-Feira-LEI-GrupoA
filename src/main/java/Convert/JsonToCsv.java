@@ -40,6 +40,6 @@ public class JsonToCsv {
         return new File("output.csv");
     }
     public static void main(String[] args) {
-        convert(new File("C:/Users/Utilizador/Desktop/ES/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA-3/src/main/resources/input.json"));
+        convert(new File("C:/Users/Utilizador/Desktop/ES/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA-3/output.json"));
     }
 }

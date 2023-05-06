@@ -34,7 +34,7 @@ public class WebcaltoJson {
 
   public static File WebcalltoCSV(String stringuri) throws URISyntaxException, IOException, ParseException {
     List<CalendarEvent> CEvent = WebcalCalendarImporter.importEventsFromWebcal(stringuri);
-    File file = new File("output6.csv");
+    File file = new File("output4.csv");
     FileWriter fw = new FileWriter(file);
     CSVPrinter csvPrinter = new CSVPrinter(fw, CSVFormat.DEFAULT.withHeader(
         "Title", "Description", "Start Date", "End Date"));
