@@ -13,6 +13,7 @@ public class SobrelotacaoHorario {
 
     /**
      * Devolve uma lista de CalendarEvents que estão sobrelotados, ou seja o número de inscritos é maior que a capacidade da sala
+     * Também altera o boolean isSobrelotado de todos os eventos que estão sobrelotados
      *
      * @param input lista de CalendarEvents
      * @return lista de CalendarEvents sobrelotados
@@ -34,8 +35,10 @@ public class SobrelotacaoHorario {
                     //System.out.println(salacap);
                 }
             }
-            if (inscritos > salacap && salacap != 0)
+            if (inscritos > salacap && salacap != 0){
                 lista.add(e);
+                isSobrelotado(e);
+            }
         }
         return lista;
     }
@@ -50,9 +53,21 @@ public class SobrelotacaoHorario {
         return getSobrelotacoes(input).size();
     }
 
+    /**
+     * Mete o atributo boolean isSobrelotado de um CalendarEvent a true
+     *
+     * @param input um CalendarEvent
+     * @return 
+     */
+
+    public static void isSobrelotado(CalendarEvent e){
+        e.setIsSobrelotado(true);
+    }
+
     public static void main(String[] args) throws ParseException, IOException {
         List<CalendarEvent> eventos = showCSV.showHorario(new File("output.csv"));
-        List<CalendarEvent> sobreLot = getSobrelotacoes(eventos);
+        getSobrelotacoes(eventos); 
+        //List<CalendarEvent> sobreLot = getSobrelotacoes(eventos); se quiseres a lista de eventos sobrelotados 
         int nr = getNrSobreLotacoes(eventos);
         System.out.println(nr);
     }
