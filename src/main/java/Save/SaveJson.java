@@ -14,9 +14,14 @@ import org.kohsuke.github.*;
 
 public class SaveJson{
 	/**
-	 * Funcão main que vai receber informacao do utilizador a cerca de onde ele pretend gravar um ficheiro json (web ou localmente).
+	 * Funcão que vai receber informacao do utilizador a cerca de onde ele pretend gravar um ficheiro (web).
+	 * @param username Nome da conta github
+	 * @param repository Repositório Gitbhub onde será salvo o ficheiro
+	 * @param token Token de autenticação da conta 
+	 * @param path Localização do ficheiro em disco
+	 * @param name Nome que será dado ao ficheiro dentro do repositório
+	 * @throws IOException caso hajam erros de input/output
 	 * 
-	 * @throws IOException
 	 */
 	
 	public static void saveOnline(String username, String repository, String token, String path, String name) throws IOException{
@@ -35,8 +40,15 @@ public class SaveJson{
 		System.out.println("File " + name + " was uploaded to " + username + "/" + repository);
 	}
 
-	public static void main(String[] args) throws IOException{
-
+	/**
+	 * Funcão que vai receber informacao do utilizador a cerca de onde ele pretend gravar um ficheiro  (localmente).
+	 * @param oldPath Antiga localização do ficheiro em disco
+	 * @param newPath Nova localização do ficheiro em disco
+	 * @throws IOException caso hajam erros de input/output
+	 * 
+	 */
+	
+	public static void saveLocal(String oldPath,String newPath) throws IOException{
 		InputStreamReader ir = new InputStreamReader(System.in);
 		BufferedReader in = new BufferedReader(ir);
 		BufferedReader bufferedReader = null;
@@ -44,31 +56,28 @@ public class SaveJson{
 
 		String  metodo ,OndeGuardar , nome ,DfilePath , SfilePath,donoR,repositorio,token;
 
-		System.out.println("Especifique a Directoria do ficheiro Fonte\n");
+		//System.out.println("Especifique a Directoria do ficheiro Fonte\n");
 
-		SfilePath=in.readLine();
-
-
-		System.out.println("Nome que pretende dar ao ficheiro\n");
-		nome =in.readLine()+".json" ;
-
-		System.out.println("Porfavor, especifique o metodo que pretende salvar o ficheiro(web ou localmente)\n");
-		metodo = in.readLine();
-		if(metodo.contentEquals("localmente")){
-
-			System.out.println("Directoria onde pretende salvar o ficheiro\n");
-			OndeGuardar = in.readLine();
+		//SfilePath=in.readLine();
 
 
+		//System.out.println("Nome que pretende dar ao ficheiro\n");
+		//nome =in.readLine()+".json" ;
+
+		//System.out.println("Porfavor, especifique o metodo que pretende salvar o ficheiro(web ou localmente)\n");
+		//metodo = in.readLine();
+
+			//System.out.println("Directoria onde pretende salvar o ficheiro\n");
+			//OndeGuardar = in.readLine();
 
 
-			DfilePath=OndeGuardar + nome ;
+			//DfilePath=OndeGuardar + nome ;
 
 
 
 			try {
-				bufferedReader = new BufferedReader(new FileReader(SfilePath));
-				bufferedWriter=new BufferedWriter(new FileWriter(DfilePath));
+				bufferedReader = new BufferedReader(new FileReader(oldPath));
+				bufferedWriter=new BufferedWriter(new FileWriter(newPath));
 
 				String line;
 				// Le cada linha do ficheiro json e rescreve-o no ficheiro json destino.
@@ -76,7 +85,7 @@ public class SaveJson{
 					bufferedWriter.write(line);
 					bufferedWriter.newLine();
 				}
-				System.out.println("Data written to the destination json file successfully.");
+				System.out.println("Data written to the destination successfully.");
 			} catch (FileNotFoundException f){
 				f.printStackTrace();
 			}
@@ -101,8 +110,9 @@ public class SaveJson{
 
 
 			}
-		}
-		
+	}
+	
+	public static void main(String[] args) throws IOException{
 		
 	}
 }

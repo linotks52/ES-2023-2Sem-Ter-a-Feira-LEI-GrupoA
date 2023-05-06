@@ -22,16 +22,18 @@ public class CsvToJson {
      * @return the file converted to json
      */
     public static File convert(File f){
+    	String[] name = f.getAbsolutePath().split("\\.");
+        File output = new File(name[0]+".json");
         try {
             String csvAsString = new BufferedReader(new FileReader(f.getAbsolutePath())).lines().collect(Collectors.joining("\n"));
             String json = CDL.toJSONArray(csvAsString).toString();
-            BufferedWriter bw = new BufferedWriter(new FileWriter("default.json"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(output));
             bw.write(json);
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new File("output.json");
+        return output;
     }
     public static void main(String[] args) {
         convert(new File("/home/pereira/aulas/ES/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA-3/output.csv"));

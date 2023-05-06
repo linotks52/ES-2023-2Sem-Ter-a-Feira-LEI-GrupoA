@@ -14,10 +14,10 @@ public class CalendarEvent {
 	
 	/**
 	 * Calendar event constructor (Title, Description, startDate, endDate)
-	 * @param String
-	 * @param String
-	 * @param Date
-	 * @param Date
+	 * @param title Título do evento
+	 * @param description Descrição do evento
+	 * @param startDate Data de início do evento
+	 * @param endDate Data de fim do enveot
 	 */
 
 
@@ -47,7 +47,7 @@ public class CalendarEvent {
 	
 	/**
 	 * Sets the title of the event
-	 * @param String
+	 * @param title Título do evento
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -63,7 +63,7 @@ public class CalendarEvent {
 	
 	/**
 	 * Sets the description of the event
-	 * @param String
+	 * @param description Descrição do evento
 	 */
 	public void addDescription(String description) {
 		String str1 = this.description;
@@ -82,7 +82,7 @@ public class CalendarEvent {
 	
 	/**
 	 * Sets the start date of the event
-	 * @param Date
+	 * @param startDate Data de início do evento
 	 */
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
@@ -98,7 +98,7 @@ public class CalendarEvent {
 	
 	/**
 	 * Sets the Date of the event
-	 * @param Date
+	 * @param endDate Data de fim do evento
 	 */
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;

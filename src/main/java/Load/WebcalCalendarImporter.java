@@ -21,9 +21,9 @@ import Timetable.CalendarEvent;
 public abstract class WebcalCalendarImporter {
 	
 	/**
-	 * Function that receives a String with webcal and returns it in a workable URI
-	 * @param String
-	 * @return String
+	 * Função que recebe um string com um webcal e retorna um URI
+	 * @param uristring webcalendar a ser importado
+	 * @return URI gerado a partir do webcal
 	 */
 	public static String WebcaltoURI(String uristring) {
 		String uri = uristring;
@@ -35,11 +35,11 @@ public abstract class WebcalCalendarImporter {
 	/**
 	 * Funcão que recebe um uri e cria uma lista de eventos no calendário desse URI, nota se o URI for webcal
 	 * usar a função {@link #WebcaltoURI(String)} primeiro
-	 * @param uriString
+	 * @param uriString URI de onde serão extraídos os eventos
 	 * @return Lista de Eventos de um Calendário
-	 * @throws URISyntaxException
-	 * @throws IOException
-	 * @throws ParseException
+	 * @throws URISyntaxException caso a sintaxe do URI esteja incorreta
+	 * @throws IOException caso hajam erros de input/output
+	 * @throws ParseException caso hajam erros de conversão
 	 */
     public static List<CalendarEvent> importEventsFromWebcal(String uriString) throws URISyntaxException, IOException, ParseException {
         List<CalendarEvent> events = new ArrayList<>();
@@ -68,9 +68,9 @@ public abstract class WebcalCalendarImporter {
     /**
      * Função que recebe uma linha de texto e divide-a de acordo com os parametros estabelecidos e cria um evento com
      * essas informações
-     * @param line
-     * @param event
-     * @throws ParseException
+     * @param line uma linha de texto contendo informação do evento
+     * @param event um evento do calendário que será atualizado com informação da linha de texto
+     * @throws ParseException caso exista um erro a converter a data
      */
     private static void parseLine(String line, CalendarEvent event) throws ParseException {
         if (line.startsWith("SUMMARY:")) {
