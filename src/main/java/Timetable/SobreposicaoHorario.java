@@ -31,19 +31,23 @@ public class SobreposicaoHorario {
         Map<Date, List<CalendarEvent>> mapaComSobreposicoes = new HashMap<>();
 
         for (CalendarEvent ce : Cevents) {
-            if (!mapa.containsKey(ce.getStartDate())) {
-                List<CalendarEvent> a = new ArrayList<>();
-                mapa.put(ce.getStartDate(), a);
-            }
+            if (ce.getStartDate() != null) {
+                if (!mapa.containsKey(ce.getStartDate())) {
+                    List<CalendarEvent> a = new ArrayList<>();
+                    mapa.put(ce.getStartDate(), a);
+                }
 
-            List<CalendarEvent> eventosNoDia = mapa.get(ce.getStartDate());
-            eventosNoDia.add(ce);
+                List<CalendarEvent> eventosNoDia = mapa.get(ce.getStartDate());
+                eventosNoDia.add(ce);
+            }
         }
 
         for (Date b : mapa.keySet()) {
             if (mapa.get(b).size() > 1) {
-                // System.out.println(a);
-                // System.out.println(mapa.get(b));
+                // paarte do boolean
+                for (CalendarEvent a : mapa.get(b)) {
+                    a.setIsSobreposto(true);
+                }
                 mapaComSobreposicoes.put(b, mapa.get(b));
             }
         }
@@ -51,8 +55,7 @@ public class SobreposicaoHorario {
     }
 
     public static void main(String[] args) throws ParseException, IOException {
-        showCSV a = new showCSV();
-        List<CalendarEvent> eventos = showCSV.showHorario(new File("output4.csv"));
+        List<CalendarEvent> eventos = showCSV.showHorario(new File("output.csv"));
         CalendarEvent b = new CalendarEvent("OLA", "xd", new Date(2022, 5, 12, 15, 30, 0),
                 new Date(2022, 5, 12, 17, 0, 0));
         eventos.add(b);
@@ -64,7 +67,7 @@ public class SobreposicaoHorario {
 
             for (CalendarEvent e : mapa.get(d)) {
                 count = count + 1;
-                System.out.println(e.getTitle());
+                System.out.println(e.getTitle() + e.getIsSobreposto());
             }
             System.out.println(d + " " + count);
 

@@ -36,7 +36,7 @@ public class EscolhaUCs {
                 new InputStreamReader(new FileInputStream(f.getAbsolutePath()), StandardCharsets.UTF_8));
         CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
         CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
-        
+        csvReader.readNext();
     
         String[] linha;
         while ((linha = csvReader.readNext()) != null) {
@@ -67,14 +67,12 @@ public class EscolhaUCs {
         }
         return UcsEscolhidas;
     }
-    
-    
 
     public static void main(String[] args) throws ParseException, IOException {
 
         
         List<String> UcsEsc = EscolhaUC(new File(
-            "C:/Users/Utilizador/Desktop/ES2.0/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/teste.csv"));
+            "C:/Users/Utilizador/Desktop/ES2.0/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/UCsDisp.csv"));
         for (String a : UcsEsc)
             System.out.println(a);
     }

@@ -47,7 +47,6 @@ public class showCSV {
 
             Reader leitor = new BufferedReader(
                     new InputStreamReader(new FileInputStream(path.getAbsolutePath()), StandardCharsets.UTF_8));
-            System.out.println(path.getAbsolutePath());
             CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
             CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
             String[] cabecalho = csvReader.readNext();
@@ -147,7 +146,6 @@ public class showCSV {
     public static void lerJsonMoodle(File a, List<CalendarEvent> horario) throws IOException {
         Reader leitor = new BufferedReader(
                 new InputStreamReader(new FileInputStream(a.getAbsolutePath()), StandardCharsets.UTF_8));
-        System.out.println(a.getAbsolutePath());
         CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
         CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
 
