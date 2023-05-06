@@ -104,12 +104,28 @@ public class CalendarEvent {
 		this.endDate = endDate;
 	}
 	
+	public Boolean getIsSobreposto(){
+		return isSobreposto;
+	}
+
+	public void setIsSobreposto(Boolean b){
+		isSobreposto = b;
+	}
+
+	public Boolean getIsSobrelotado(){
+		return isSobrelotado;
+	}
+
+	public void setIsSobrelotado(Boolean b){
+		isSobrelotado = b;
+	}
+	
 	private String title;
     private String description;
     private Date startDate;
     private Date endDate;
-    
- 
+    private boolean isSobreposto;
+	private boolean isSobrelotado;
 
 }
 
