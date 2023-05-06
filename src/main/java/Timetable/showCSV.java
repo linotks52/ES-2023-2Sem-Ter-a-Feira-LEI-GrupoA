@@ -3,14 +3,17 @@ package Timetable;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.opencsv.CSVParser;
@@ -20,10 +23,7 @@ import com.opencsv.CSVReaderBuilder;
 
 import Convert.JsonToCsv;
 
-
-
 //FORMATOS PEDIDOS PELO PROFESSOR NESTE PROJETO - MOODLE E DO WEBCALL DO FENIX
-
 
 /**
  * Class que trata em criar uma Lista de CalendarEvents de um ficheiro - CSV ou
@@ -85,17 +85,30 @@ public class showCSV {
 
         String[] linha;
         while ((linha = csvReader.readNext()) != null) {
+      
             CalendarEvent evento = new CalendarEvent();
             evento.setTitle(linha[0]);
-            evento.addDescription(linha[3]);
+            evento.addDescription(linha[1]);
             String[] data = linha[2].split(" ");
+           // ArrayList<String> datahelp=new ArrayList<String>();;
+           // datahelp.add(data[1]);
+            //datahelp.add(data[2]);
+            //datahelp.add(data[3]);
+            //datahelp.add(data[5]);
+            //System.out.println(datahelp.get(0)+ " " +datahelp.get(1)+ " " + datahelp.get(2)+ " " +datahelp.get(3));
+            
+        
+
             evento.setStartDate(ColocarCalCSV(data));
+            //Date aa = ColocarCalCSV(data);
+            //System.out.println(aa.getTime());
             String[] data2 = linha[3].split(" ");
             evento.setEndDate(ColocarCalCSV(data2));
             horario.add(evento);
         }
     }
 
+ 
     /**
      * Lê o ficheiro CSV com o formato enviado pelo professor, e adiciona a uma
      * Lista de CalendarEvents os seus Eventos
@@ -167,6 +180,7 @@ public class showCSV {
             horario.add(evento);
         }
     }
+    
 
     /**
      * Devolve o numero correspondente ao mês inserido
@@ -179,47 +193,50 @@ public class showCSV {
     public static int checkData(String mes) {
         switch (mes) {
             case "Jan":
-                return 1;
+                return Calendar.JANUARY;
             case "Feb":
-                return 2;
+                return Calendar.FEBRUARY;
             case "Mar":
-                return 3;
+                return Calendar.MARCH;
             case "Apr":
-                return 4;
+                return Calendar.APRIL;
             case "May":
-                return 5;
+                return Calendar.MAY;
             case "Jun":
-                return 6;
+                return Calendar.JUNE;
             case "Jul":
-                return 7;
+                return Calendar.JULY;
             case "Aug":
-                return 8;
+                return Calendar.AUGUST;
             case "Sep":
-                return 9;
+                return Calendar.SEPTEMBER;
             case "Oct":
-                return 10;
+                return Calendar.OCTOBER;
             case "Nov":
-                return 11;
+                return Calendar.NOVEMBER;
             case "Dec":
-                return 12;
+                return Calendar.DECEMBER;
             default:
                 throw new IllegalArgumentException("Mês inválido: " + mes);
         }
     }
 
+
+    
     public static Date ColocarCalCSV(String[] data) {
         Calendar cal = Calendar.getInstance();
-
         cal.set(Calendar.YEAR, Integer.parseInt(data[5]));
         cal.set(Calendar.MONTH, checkData(data[1]));
-        cal.set(Calendar.DAY_OF_MONTH, 0);
+        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(data[2]));
         cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(data[3].split(":")[0]));
         cal.set(Calendar.MINUTE, Integer.parseInt(data[3].split(":")[1]));
         cal.set(Calendar.SECOND, Integer.parseInt(data[3].split(":")[2]));
         Date a = cal.getTime();
         return a;
     }
-
+      
+        
+    
     /**
      * 
      * Cria um objeto do tipo Date a partir de duas strings representando a hora e a
@@ -248,18 +265,26 @@ public class showCSV {
     }
 
     public static void main(String[] args) throws ParseException, IOException {
+        File a = new File("UtestShowCSVFen.csv");
+        a.createNewFile();
+        FileWriter writer = new FileWriter(a);
+        writer.write("Title,Description,StartDate,EndDate\n");
+        writer.write("Event 1,Description 1,Wed Apr 11 12:00:00 BST 2023,Wed Apr 11 13:30:00 BST 2023\n");
+        writer.write("Event 2,Description 2,Wed May 20 15:00:00 BST 2022,Mon May 20 17:00:00 BST 2022\n");
+        writer.close();
 
-        List<CalendarEvent> eventos = showHorario(new File(
-                "C:/Users/Utilizador/Desktop/ES/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA-3/src/main/resources/output4.csv"));
+        List<CalendarEvent> eventos = showHorario(a);
         for (CalendarEvent evento : eventos) {
+
             System.out.println("Título: " + evento.getTitle());
             System.out.println("Descrição: " + evento.getDescription());
             if (evento.getStartDate() != null) {
                 System.out.println("Data de início: " + evento.getStartDate().toString());
-                System.out.println("Data de fim: " + evento.getEndDate().toString());
+              //  System.out.println("Data de fim: " + evento.getEndDate().toString());
             }
             System.out.println();
         }
 
     }
 }
+
