@@ -7,8 +7,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.*;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,7 +25,7 @@ import Convert.*;
 	public class GUI extends JFrame implements ActionListener {
 		private JPanel cardPanel;
 	    private CardLayout cardLayout;
-	    private JButton load, upload, save, csvToJson, jsonToCsv, local, online, json, csv, confirm, return1, return2;
+	    private JButton load, upload, save, csvToJson, jsonToCsv, local, online, json, csv, confirm, return1, return2, schedule;
 	    private JTextField url, username, repository, name, token;
 	    //private JPasswordField token;
 	    private JFileChooser fc;
@@ -94,12 +96,17 @@ import Convert.*;
 	        jsonToCsv.addActionListener(this);
 	        card2.add(jsonToCsv,gbc2);
 	        
-	        gbc2.gridx = 1;
+	        gbc2.gridx = 0;
 	        gbc2.gridy++;
 
 	        return1 = new JButton("Retornar");
 	        return1.addActionListener(this);
 	        card2.add(return1, gbc2);
+	        
+	        gbc2.gridx=2;
+	        schedule = new JButton("Ver horário");
+	        schedule.addActionListener(this);
+	        card2.add(schedule, gbc2);
 	        
 	        cardPanel.add(card2, "Card 2");
 	        
@@ -215,16 +222,25 @@ import Convert.*;
 		            cardLayout.show(cardPanel, "Card 2");
 		        }
 	    	}else if (e.getSource() == upload){
-	    		try {
-	    			if(url.getText().substring(0,7).equals("webcal"))
-	    				events = WebcalCalendarImporter.importEventsFromWebcal(WebcalCalendarImporter.WebcaltoURI(url.getText()));
-	    			else 
-	    				file = URLFileDownloader.downloadFileFromURL(url.getText());
-		            current.setText(file.getName());
-		            cardLayout.show(cardPanel, "Card 2");
-				} catch (Exception e2) {
-					e2.printStackTrace();
-				}
+	    		System.out.println(url.getText().substring(0,7));
+	    		
+	    		 if (url.getText().isEmpty()) {
+	                 JOptionPane.showMessageDialog(frame, "Please enter a url.");
+	                 token.requestFocus();
+	             }else {
+		    		try {
+		    			if(url.getText().substring(0,6).equals("webcal")) {
+		    				events = WebcalCalendarImporter.importEventsFromWebcal(WebcalCalendarImporter.WebcaltoURI(url.getText()));
+		    				current.setText("Web calendar");
+		    			}else { 
+		    				file = URLFileDownloader.downloadFileFromURL(url.getText());
+		    				current.setText(file.getName());
+		    			}
+			            cardLayout.show(cardPanel, "Card 2");
+					} catch (Exception e2) {
+						e2.printStackTrace();
+					}
+	             }
 
 	    	}else if(e.getSource() == save) {
 	    		cardLayout.show(cardPanel, "Card 3");
@@ -300,16 +316,19 @@ import Convert.*;
 	    		file = CsvToJson.convert(file);
 	    		fc.setSelectedFile(file);
 	    		System.out.println(file);
-
+	    		current.setText(file.getName());
 	    	}else if(e.getSource() == jsonToCsv) {
 	    		System.out.println(file);
 	    		file = JsonToCsv.convert(file);
 	    		fc.setSelectedFile(file);
 	    		System.out.println(file);
+	    		current.setText(file.getName());
 	    	}else if(e.getSource() == return1){
 	            cardLayout.show(cardPanel, "Card 1");
 	    	}else if(e.getSource() == return2) {
 	    		cardLayout.show(cardPanel, "Card 2");
+	    	}else if(e.getSource() == schedule) {
+	    		
 	    	}
             
 	    }
