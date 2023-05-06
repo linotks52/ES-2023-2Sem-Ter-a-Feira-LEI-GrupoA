@@ -15,8 +15,8 @@ import org.kohsuke.github.*;
 public class SaveCsv{
 	/**
 	 * Funcão main que vai receber informacao do utilizador a cerca de onde ele pretend gravar um ficheiro csv (web ou localmente).
-	 * 
-	 * @throws IOException
+	 * @param args são argumentos
+	 * @throws IOException caso exista um erro de input
 	 */
 
 	public static void main(String[] args) throws IOException{

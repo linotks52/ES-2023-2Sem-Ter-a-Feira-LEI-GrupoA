@@ -14,9 +14,14 @@ import org.kohsuke.github.*;
 
 public class SaveJson{
 	/**
-	 * Funcão main que vai receber informacao do utilizador a cerca de onde ele pretend gravar um ficheiro json (web ou localmente).
+	 * Funcão que vai receber informacao do utilizador a cerca de onde ele pretend gravar um ficheiro (web).
+	 * @param username Nome da conta github
+	 * @param repository Repositório Gitbhub onde será salvo o ficheiro
+	 * @param token Token de autenticação da conta 
+	 * @param path Localização do ficheiro em disco
+	 * @param name Nome que será dado ao ficheiro dentro do repositório
+	 * @throws IOException caso hajam erros de input/output
 	 * 
-	 * @throws IOException
 	 */
 	
 	public static void saveOnline(String username, String repository, String token, String path, String name) throws IOException{
@@ -35,6 +40,14 @@ public class SaveJson{
 		System.out.println("File " + name + " was uploaded to " + username + "/" + repository);
 	}
 
+	/**
+	 * Funcão que vai receber informacao do utilizador a cerca de onde ele pretend gravar um ficheiro  (localmente).
+	 * @param oldPath Antiga localização do ficheiro em disco
+	 * @param newPath Nova localização do ficheiro em disco
+	 * @throws IOException caso hajam erros de input/output
+	 * 
+	 */
+	
 	public static void saveLocal(String oldPath,String newPath) throws IOException{
 		InputStreamReader ir = new InputStreamReader(System.in);
 		BufferedReader in = new BufferedReader(ir);

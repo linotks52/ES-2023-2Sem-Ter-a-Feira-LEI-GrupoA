@@ -16,9 +16,9 @@ public abstract class URLFileDownloader {
 	
 	/**
 	 * Função que recebe um URL (String) e retorna o ficheiro nesse mesmo url
-	 * @param String
-	 * @return File
-	 * @throws IOException
+	 * @param url o URL do ficheiro a ser descarregado
+	 * @return o ficheiro descarregado
+	 * @throws IOException se houver um erro a descarregar o ficheiro
 	 */
     public static File downloadFileFromURL(String url) throws IOException {
         // Create URL object
