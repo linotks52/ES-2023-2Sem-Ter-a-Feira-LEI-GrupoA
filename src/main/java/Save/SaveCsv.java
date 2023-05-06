@@ -14,111 +14,79 @@ import org.kohsuke.github.*;
 
 public class SaveCsv{
 	/**
-	 * Funcão main que vai receber informacao do utilizador a cerca de onde ele pretend gravar um ficheiro csv (web ou localmente).
+	 * Metodo saveOnline que salva um ficheiro Csv num repositorio GitHub atraves de um token pessoal.
 	 * 
 	 * @throws IOException
 	 */
+	public static void saveOnline(String username, String repository, String token, String path, String name) throws IOException{
+		name = name + ".csv";
+		
+		Path file = Paths.get(path);
+		byte[] fileContent = Files.readAllBytes(file);
 
-	public static void main(String[] args) throws IOException{
+		// Autenticar utilizado o token do API do GitHub
+		GitHub github = new GitHubBuilder().withOAuthToken(token).build();
 
-		InputStreamReader ir = new InputStreamReader(System.in);
-		BufferedReader in = new BufferedReader(ir);
+		// Buscar o repositorio
+		GHRepository connect = github.getRepository(username + "/" + repository);
+
+		// Criar um ficheiro novo no repositorio com os dados do ficheiro existente
+		GHContentBuilder builder = connect.createContent();
+		builder.content(fileContent).message("Added " + name).path(name).commit();
+		System.out.println("File " + name + " was uploaded to " + username + "/" + repository);
+	}
+
+
+	/**
+	 * Metodo saveLocalmente que salva um ficheiro Csv numa diretoria escolhida pelo utilizador.
+	 * 
+	 * @throws IOException
+	 */
+	
+	
+	public static void saveLocalmente(String name,String spath,String dpath){
+		
 		BufferedReader bufferedReader = null;
 		BufferedWriter bufferedWriter= null;
+		
+		name=name+".csv";
+		
+		dpath=dpath + name;
+		
+		try {
+			bufferedReader = new BufferedReader(new FileReader(spath));
+			bufferedWriter=new BufferedWriter(new FileWriter(dpath));
 
-		String  metodo ,OndeGuardar , nome ,DfilePath , SfilePath,donoR,repositorio,token;
-
-		System.out.println("Especifique a Directoria do ficheiro Fonte\n");
-
-		SfilePath=in.readLine();
-
-
-		System.out.println("Nome que pretende dar ao ficheiro\n");
-		nome =in.readLine()+".csv" ;
-
-		System.out.println("Porfavor, especifique o metodo que pretende salvar o ficheiro(web ou localmente)\n");
-		metodo = in.readLine();
-		if(metodo.contentEquals("localmente")){
-
-			System.out.println("Directoria onde pretende salvar o ficheiro\n");
-			OndeGuardar = in.readLine();
-
-
-
-
-			DfilePath=OndeGuardar + nome ;
-
-
-
-			try {
-				bufferedReader = new BufferedReader(new FileReader(SfilePath));
-				bufferedWriter=new BufferedWriter(new FileWriter(DfilePath));
-
-				String line;
-				// Le cada linha do ficheiro CSV e rescreve-o no ficheiro CSV destino.
-				while ((line = bufferedReader.readLine()) != null) {
-					bufferedWriter.write(line);
-					bufferedWriter.newLine();
-				}
-				System.out.println("Data written to the destination CSV file successfully.");
-			} catch (FileNotFoundException f){
-				f.printStackTrace();
+			String line;
+			// Le cada linha do ficheiro json e rescreve-o no ficheiro json destino.
+			while ((line = bufferedReader.readLine()) != null) {
+				bufferedWriter.write(line);
+				bufferedWriter.newLine();
 			}
-			finally{
-				if(bufferedReader != null && bufferedWriter != null){
-
-					try{
-
-						// Fecha o bufferedReader e bufferedWriter.
-						bufferedReader.close();
-
-						bufferedWriter.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-
-
-
-
-
-
-
-			}
+			System.out.println("Data written to the destination json file successfully.");
+		} catch (IOException f){
+			f.printStackTrace();
 		}
-			if(metodo.contentEquals("web")){
+		finally{
+			if(bufferedReader != null && bufferedWriter != null){
 
-				// Informacao acerca do GITHUB
-				System.out.println("GitHub Username:\n");
-				donoR = in.readLine();
-				System.out.println("Repositorio GitHub:\n");
-				repositorio = in.readLine();
+				try{
 
+					// Fecha o bufferedReader e bufferedWriter.
+					bufferedReader.close();
 
-				// GitHub API token que serve da mesma forma que uma palavra-passe
-				System.out.println("Token de autenticacao GitHub:\n");
-				token = in.readLine();
-
-				// Le o ficheiro CSV existente
-				Path path = Paths.get(SfilePath);
-				byte[] fileContent = Files.readAllBytes(path);
-
-				// Autenticar utilizado o token do API do GitHub
-				GitHub github = new GitHubBuilder().withOAuthToken(token).build();
-
-				// Buscar o repositorio
-				GHRepository repository = github.getRepository(donoR + "/" + repositorio);
-
-
-
-				// Criar um ficheiro novo no repositorio com os dados do ficheiro existente
-				GHContentBuilder builder = repository.createContent();
-				builder.content(fileContent).message("Added " + nome).path(nome).commit();
-
-				// Mensagem para indicar o upload
-				System.out.println("File " + nome + " was uploaded to " + donoR + "/" + repositorio);
+					bufferedWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-		}
+	
+	
+	
+	
 	}
+}
+}
+	
 
 
