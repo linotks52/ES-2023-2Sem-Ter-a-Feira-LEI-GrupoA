@@ -213,18 +213,6 @@ public class OrgHorario {
         for (CalendarEvent c : eventos){
            System.out.println( DateToLocalDateTime(c.getStartDate()).get(WeekFields.ISO.weekOfWeekBasedYear()));
         }
-       // List<CalendarEvent> c = b.CalFiltradoAno(eventos, 2022);
-        //
-        //for (CalendarEvent g : c){
-        //    System.out.println(g.getStartDate());
-       // }
-
-       // for (CalendarEvent d : eventos) {
-       //     LocalDateTime e = b.DateToLocalDateTime(d.getStartDate());
-       //     System.out.println(e.get(WeekFields.ISO.weekOfWeekBasedYear()) + " " + d.getStartDate().toString());
-            // System.out.println(d.getStartDate().toString());
-       // }
-
     }
 
 }
