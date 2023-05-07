@@ -31,9 +31,20 @@ public class SobreposicaoHorario {
         Map<Date, List<CalendarEvent>> mapaComSobreposicoes = new HashMap<>();
 
         for (CalendarEvent ce : Cevents) {
+
+            
             if (ce.getStartDate() != null) {
+                //A MINHA IDEIA ERA DENTRO DESTE IF, VERIFICAR TB SE A DATA INICIAL DO CE (QUE PEGAMOS NO FOR)
+                // ESTÁ ENTRE A DATA INICIAL E A DATA FINAL DE ALGUM QUE ESTEJA JA POSTO NO MAPA, TENS O PRINT QUE TE MANDEI COM UMA VAGA IDEIA
+                // CASO ESTIVESSE, ADICIONAR A UM CAMPO NOVO NO MAPA, ADICIONAMOS À DATA INICIAL DO QUE ESTÁ NO MAPA
+                //EXEMPLO:
+                //TEMOS UM EVENTO "A" COM STARTDATE AS 15:00:00, E NO MAPA HÁ UM EVENTO "B" QUE COMECA AS 14:00:00 E VAI ATÉ AS 16:00:00, 
+                //EU QUERO ADICIONAR À LISTA DE EVENTOS ASSIOCIADA AO EVENTO B, ATRAVES DO B.GETSTARTDATE(), O EVENTO "A". 
+                //SE NÃO EXISTIR NO MAPA, NEM ESTÁ ENTRE OUTRO EVENTO, ADICIONAR NO MAPA
+    
                 if (!mapa.containsKey(ce.getStartDate())) {
                     List<CalendarEvent> a = new ArrayList<>();
+                    a.add(ce);
                     mapa.put(ce.getStartDate(), a);
                 }
 
