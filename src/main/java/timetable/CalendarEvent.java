@@ -73,6 +73,17 @@ public class CalendarEvent {
 	}
 	
 	/**
+	 * Sets the title of the event
+	 * @param title titulo do evento
+	 */
+	public void addTitle(String title) {
+		String str1 = this.title;
+		String str2 = title;
+		String str3 = str1 + str2;
+		this.title = str3;
+	}
+	
+	/**
 	 * Returns the date of the event
 	 * @return Date
 	 */
