@@ -245,7 +245,7 @@ import Convert.*;
             if (result == JFileChooser.APPROVE_OPTION) {
                 String filePath = fc.getSelectedFile().getAbsolutePath();
                 try {
-					SaveJson.saveLocal(file.getAbsolutePath(), filePath);
+					SaveJson.saveLocalmente(file.getAbsolutePath(), filePath);
 				} catch (IOException e2) {
 					e2.printStackTrace();
 				}   
@@ -336,7 +336,7 @@ import Convert.*;
 	    	}else if(e.getSource() == return2) {
 	    		cardLayout.show(cardPanel, "Card 2");
 	    	}else if(e.getSource() == schedule) {
-	    		
+	    		MyLauncher.main(null);
 	    	}
             
 	    }

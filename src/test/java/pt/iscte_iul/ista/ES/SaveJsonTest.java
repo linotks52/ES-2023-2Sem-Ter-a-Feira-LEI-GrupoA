@@ -32,7 +32,7 @@ class SaveJsonTest {
 		
 		String dFile="FicheirosDeTeste/";
 		String sFile = "OLA.csv";
-		SaveJson.saveLocalmente("TESTE",sFile,dFile);
+		SaveJson.saveLocalmente(sFile,dFile);
 		File f = new File("FicheirosDeTeste/TESTE.json");
 		assertTrue(f.exists());
 		f.delete();

@@ -60,16 +60,13 @@ public class SaveJson{
 	 * @author JoaoMariaFranco
 	 */
 
-	public static void saveLocalmente(String name,String spath,String dpath){
+	public static void saveLocalmente(String spath,String dpath) throws IOException{
 
 		BufferedReader bufferedReader = null;
 		BufferedWriter bufferedWriter= null;
 
 
 
-		name=name+".json";
-
-		dpath=dpath + name;
 
 
 		try {
@@ -89,9 +86,7 @@ public class SaveJson{
 
 			}
 			
-		} catch (IOException f){
-			f.printStackTrace();
-		}
+		
 		finally{
 			if(bufferedReader != null && bufferedWriter != null){
 
@@ -107,6 +102,6 @@ public class SaveJson{
 			}
 
 
-}
+}}}
 
 
