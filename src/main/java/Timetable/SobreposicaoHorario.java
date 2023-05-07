@@ -35,9 +35,11 @@ public class SobreposicaoHorario {
                     a.setIsSobreposto(true);
                     b.setIsSobreposto(true);
 
+
                 }
 
             }
+
         }
         return mapa;
     }
@@ -54,6 +56,7 @@ public class SobreposicaoHorario {
         if (!mapa.containsKey(a)) {
             mapa.put(a, new ArrayList<CalendarEvent>());
         }
+
         List<CalendarEvent> eventosNoDia = mapa.get(a);
         eventosNoDia.add(b);
         mapa.put(a, eventosNoDia);
@@ -61,12 +64,14 @@ public class SobreposicaoHorario {
 
     /**
      * 
-     * Verifica se 2 CalendarEvents estão sobrepostos, ou seja, se um começa ou acaba enquanto outro decorre ou 
+     * Verifica se 2 CalendarEvents estão sobrepostos, ou seja, se um começa ou
+     * acaba enquanto outro decorre ou
      * 
      * @param a CalendarEvent que vamos verificar
      * @param b CalendarEvent que já está no mapa
      * @return verdade se estão sobrepostos
      */
+
     public static boolean isBetween(CalendarEvent a, CalendarEvent b) {
         return ((a.getStartDate().before(b.getEndDate()) &&
                 a.getStartDate().after(b.getStartDate()))
@@ -80,6 +85,7 @@ public class SobreposicaoHorario {
 
         List<CalendarEvent> eventos = showCSV.showHorario(
                 new File("C:/Users/Utilizador/Desktop/ES2.0/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/UTestShowCSVFen.csv"));
+
         CalendarEvent b = new CalendarEvent("OLA", "xd", new Date(2022, 5, 12, 15, 30, 0),
                 new Date(2022, 5, 12, 17, 0, 0));
         eventos.add(b);
@@ -97,6 +103,4 @@ public class SobreposicaoHorario {
         }
 
     }
-
-
 }
