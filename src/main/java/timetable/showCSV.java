@@ -273,7 +273,8 @@ public class showCSV {
         writer.write("Event 2,Description 2,Wed May 20 15:00:00 BST 2022,Mon May 20 17:00:00 BST 2022\n");
         writer.close();
 
-        List<CalendarEvent> eventos = showHorario(a);
+        File b = new File("C:/Users/Utilizador/Desktop/ES2.0/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/output4.csv");
+        List<CalendarEvent> eventos = showHorario(b);
         for (CalendarEvent evento : eventos) {
 
             System.out.println("Título: " + evento.getTitle());

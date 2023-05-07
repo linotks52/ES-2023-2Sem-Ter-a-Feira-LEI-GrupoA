@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import convert.*;
@@ -30,6 +31,7 @@ import save.*;
 	    private File file;
 	    private List<CalendarEvent> events;
 	    private static final String CARD2 = "Card 2";
+
 
 	    
 	    
@@ -260,7 +262,7 @@ import save.*;
 					SaveJson.saveLocalmente(file.getAbsolutePath(), filePath);
 				} catch (IOException e) {
 					e.printStackTrace();
-				}
+				} 
             }
 	    }
 	    
@@ -348,7 +350,7 @@ import save.*;
 	    	}else if(e.getSource() == return2) {
 	    		cardLayout.show(cardPanel, CARD2);
 	    	}else if(e.getSource() == schedule) {
-	    		
+	    		SimpleAgenda.main(null);
 	    	}
             
 	    }

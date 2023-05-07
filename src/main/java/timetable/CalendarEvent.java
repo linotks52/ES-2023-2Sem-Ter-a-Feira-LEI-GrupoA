@@ -127,7 +127,6 @@ public class CalendarEvent {
     private boolean isSobreposto;
 	private boolean isSobrelotado;
 
+	
+
 }
-
-
-

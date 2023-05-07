@@ -1,5 +1,8 @@
 package timetable;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -26,11 +29,20 @@ import jfxtras.scene.control.agenda.AgendaSkinSwitcher;
 import jfxtras.scene.layout.GridPane;
 import jfxtras.scene.control.LocalDateTimeTextField;
 
-public class SimpleAgenda extends Application {
+/**
+ * 
+ * @author tcast
+ * Classe da GUI que representa a agenda
+ * @version 1.0
+ */
+public abstract class SimpleAgenda extends Application {
 	private LocalDateTime currentdate;
 
+	/**
+	 * @param primaryStage Stage que representa a GUI visualmente
+	 */
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws ParseException, IOException {
         // create agenda
         Agenda agenda = new Agenda();
         int numerosobrelotacoes = 0;
@@ -76,11 +88,10 @@ public class SimpleAgenda extends Application {
         
         //vai buscar lista de eventos ao current file uploaded na gui
         
-        //List<CalendarEvent> lista = funcao.getlista(currentfile.json);
-        String s = "ola";
-        String d = "ola";
-        List<CalendarEvent> lista = new ArrayList<CalendarEvent>();
-        lista.add(new CalendarEvent(s, d, new Date(), new Date()));
+        List<CalendarEvent> lista = showCSV.showHorario(new File("output.csv"));
+      
+        numerosobrelotacoes = SobrelotacaoHorario.getNrSobreLotacoes(lista);
+        SobreposicaoHorario.SobreposHorario(lista);
         
         AppointmentGroup stylefornormal = new Agenda.AppointmentGroupImpl();
         stylefornormal.setStyleClass("appointmentnormal");
@@ -92,19 +103,21 @@ public class SimpleAgenda extends Application {
         for(CalendarEvent e : lista) {
         	Appointment exampleappointment = new Agenda.AppointmentImpl();
         	exampleappointment.setStartLocalDateTime(toLocalDateTime(e.getStartDate()));
-        	exampleappointment.setEndLocalDateTime(toLocalDateTime(e.getStartDate()));
-        	exampleappointment.setDescription(e.getDescription());
-        	exampleappointment.setSummary(e.getTitle());
-        	
-        	//if(e.issobrepostohorario) muda a cor e adiciona ao numero de sobreposicoes
+        	exampleappointment.setEndLocalDateTime(toLocalDateTime(e.getEndDate()));
+        	exampleappointment.setDescription(e.getTitle() + e.getDescription());
+        	exampleappointment.setSummary(e.getTitle() + e.getDescription());
+        	if(e.getIsSobreposto()) {
+            	exampleappointment.setAppointmentGroup(styleforsobreposto);
+            	numerosobreposicoes++;
+        	}
+        	if(e.getIsSobrelotado()) {
+        	exampleappointment.setAppointmentGroup(styleforlotado);}
         	exampleappointment.setAppointmentGroup(stylefornormal);
+        	
+        	appointments.add(exampleappointment);
         }
 
-        Appointment appointment1 = new Agenda.AppointmentImpl();
-        appointment1.setStartLocalDateTime(LocalDateTime.now().minusHours(2));
-        appointment1.setEndLocalDateTime(LocalDateTime.now().plusMinutes(10));
-        appointment1.setAppointmentGroup(stylefornormal);
-        appointments.add(appointment1);
+      
 
 
         // add appointments to agenda
@@ -118,23 +131,9 @@ public class SimpleAgenda extends Application {
         
         Label sobrelotacoes = new Label("Número de sobrelotações: " + Integer.toString(numerosobrelotacoes));
         
-        Button prevWeekButton = new Button("Previous Week");
-        prevWeekButton.setOnAction(event -> {
-        	agenda.setDisplayedLocalDateTime(currentdate.minusWeeks(1));
-        	currentdate = currentdate.minusWeeks(1);
-            primaryStage.show();
-            // Update your UI with the new date...
-        });
+       
         
-        Button nextWeekButton = new Button("Next Week");
-        nextWeekButton.setOnAction(event -> {
-        	agenda.setDisplayedLocalDateTime(currentdate.plusWeeks(1));
-        	currentdate = currentdate.plusWeeks(1);
-            primaryStage.show();
-            // Update your UI with the new date...
-        });
-        
-        HBox buttonBox = new HBox(10, prevWeekButton, nextWeekButton);
+       
         
         
 
@@ -144,9 +143,9 @@ public class SimpleAgenda extends Application {
         // create borderpane and add vbox to center
         BorderPane root = new BorderPane();
         root.setCenter(vbox);
-        root.setBottom(buttonBox);
+       
         root.setRight(lGridPane);
-
+       
         // set scene and show stage
         Scene scene = new Scene(root, 800, 600);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
@@ -154,6 +153,11 @@ public class SimpleAgenda extends Application {
         primaryStage.show();
     }
     
+    /**
+     * 
+     * @param date Data que vai ser convertida em LocalDateTime
+     * @return retorna o date recebido como um LocalDateTime
+     */
     public static LocalDateTime toLocalDateTime(Date date) {
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
     }

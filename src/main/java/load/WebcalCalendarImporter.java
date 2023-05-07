@@ -53,7 +53,7 @@ public abstract class WebcalCalendarImporter {
         
         while ((line = bufferedReader.readLine()) != null) {
             if (line.startsWith("BEGIN:VEVENT")) {
-                currentEvent = new CalendarEvent();
+                currentEvent = new CalendarEvent(line, line, null, null);
             } else if (line.startsWith("END:VEVENT")) {
                 events.add(currentEvent);
                 currentEvent = null;

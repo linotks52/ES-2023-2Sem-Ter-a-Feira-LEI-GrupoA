@@ -24,11 +24,11 @@ public class SaveCsv{
 	 * @param name Novo nome a ser dado ao ficheiro csv (e.g. name=ficheiro -> novo ficheiro "ficheiro.csv").
 	 * 
 	 * @throws IOException
-   * 
+	 * 
 	 * @author JoaoMariaFranco
 	 */
 	public static void saveOnline(String username, String repository, String token, String path, String name) 
-						throws IOException{
+			throws IOException{
 		name = name + ".csv";
 
 		Path file = Paths.get(path);
@@ -47,10 +47,11 @@ public class SaveCsv{
 	}
 
 
+
 	/**
-	 * Metodo saveLocalmente que salva um ficheiro Csv numa diretoria escolhida pelo utilizador.
+	 * Metodo saveLocalmente que salva um ficheiro csv numa diretoria escolhida pelo utilizador.
 	 * 
-	 * @param name Novo nome a ser dado ao ficheiro Json (e.g. name=ficheiro -> novo ficheiro "ficheiro.csv").
+	 * @param name Novo nome a ser dado ao ficheiro csv (e.g. name=ficheiro -> novo ficheiro "ficheiro.csv").
 	 * @param path Localizacao do ficheiro localmente .
 	 * @param dpath Localizacao destino , onde se quer que o ficheiro seja gravado. 
 	 * 
@@ -59,30 +60,33 @@ public class SaveCsv{
 	 * @author JoaoMariaFranco
 	 */
 
-
-	public static void saveLocalmente(String name,String spath,String dpath){
+	public static void saveLocalmente(String spath,String dpath) throws IOException{
 
 		BufferedReader bufferedReader = null;
 		BufferedWriter bufferedWriter= null;
 
-		name=name+".csv";
 
-		dpath=dpath + name;
+
+
 
 		try {
 			bufferedReader = new BufferedReader(new FileReader(spath));
 			bufferedWriter=new BufferedWriter(new FileWriter(dpath));
 
-			String line;
-			// Le cada linha do ficheiro csv e rescreve-o no ficheiro csv destino.
-			while ((line = bufferedReader.readLine()) != null) {
-				bufferedWriter.write(line);
-				bufferedWriter.newLine();
+
+				String line;
+				// Le cada linha do ficheiro csv e rescreve-o no ficheiro csv destino.
+				while ((line = bufferedReader.readLine()) != null) {
+					bufferedWriter.write(line);
+					bufferedWriter.newLine();
+				}
+
+			} catch (FileNotFoundException f){
+				f.printStackTrace();
+
 			}
 			
-		} catch (IOException f){
-			f.printStackTrace();
-		}
+		
 		finally{
 			if(bufferedReader != null && bufferedWriter != null){
 
@@ -98,11 +102,8 @@ public class SaveCsv{
 			}
 
 
+}}
 
-
-		}
-	}
 }
-
 
 

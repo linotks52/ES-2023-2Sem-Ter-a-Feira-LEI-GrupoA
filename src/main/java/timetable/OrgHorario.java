@@ -122,7 +122,7 @@ public class OrgHorario {
      * @param date  o Date que queremos transformar
      * @return Retorna o localdateTime criado através do date
      */
-    public LocalDateTime DateToLocalDateTime(Date date) {
+    public static LocalDateTime DateToLocalDateTime(Date date) {
         Instant instant = date.toInstant();
         LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
         return localDateTime;
@@ -208,15 +208,22 @@ public class OrgHorario {
 
     public static void main(String[] args) throws ParseException, IOException {
         showCSV a = new showCSV();
-        List<CalendarEvent> eventos = showCSV.showHorario(new File("output4.csv"));
+        List<CalendarEvent> eventos = showCSV.showHorario(new File("C:/Users/Utilizador/Desktop/ES2.0/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/UTestShowCSVFen.csv"));
         OrgHorario b = new OrgHorario();
-    
-
-        for (CalendarEvent d : eventos) {
-            LocalDateTime e = b.DateToLocalDateTime(d.getStartDate());
-            System.out.println(e.get(WeekFields.ISO.weekOfWeekBasedYear()) + " " + d.getStartDate().toString());
-            // System.out.println(d.getStartDate().toString());
+        for (CalendarEvent c : eventos){
+           System.out.println( DateToLocalDateTime(c.getStartDate()).get(WeekFields.ISO.weekOfWeekBasedYear()));
         }
+       // List<CalendarEvent> c = b.CalFiltradoAno(eventos, 2022);
+        //
+        //for (CalendarEvent g : c){
+        //    System.out.println(g.getStartDate());
+       // }
+
+       // for (CalendarEvent d : eventos) {
+       //     LocalDateTime e = b.DateToLocalDateTime(d.getStartDate());
+       //     System.out.println(e.get(WeekFields.ISO.weekOfWeekBasedYear()) + " " + d.getStartDate().toString());
+            // System.out.println(d.getStartDate().toString());
+       // }
 
     }
 

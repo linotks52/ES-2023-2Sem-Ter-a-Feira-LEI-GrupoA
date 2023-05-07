@@ -23,54 +23,84 @@ public class SobreposicaoHorario {
      * 
      * @param Cevents Lista de eventos do calendário.
      * 
-     * @return Mapa contendo as datas e horas com sobreposição de eventos e uma
-     *         lista com os CalendarEvents que ocorrem nessa data
+     * @return Mapa contendo um evento e os eventos que estão sobrepostos
+     * 
      */
-    public static Map<Date, List<CalendarEvent>> SobreposHorario(List<CalendarEvent> Cevents) {
-        Map<Date, List<CalendarEvent>> mapa = new HashMap<>();
-        Map<Date, List<CalendarEvent>> mapaComSobreposicoes = new HashMap<>();
-
-        for (CalendarEvent ce : Cevents) {
-            if (ce.getStartDate() != null) {
-                if (!mapa.containsKey(ce.getStartDate())) {
-                    List<CalendarEvent> a = new ArrayList<>();
-                    mapa.put(ce.getStartDate(), a);
-                }
-
-                List<CalendarEvent> eventosNoDia = mapa.get(ce.getStartDate());
-                eventosNoDia.add(ce);
-            }
-        }
-
-        for (Date b : mapa.keySet()) {
-            if (mapa.get(b).size() > 1) {
-                // paarte do boolean
-                for (CalendarEvent a : mapa.get(b)) {
+    public static Map<CalendarEvent, List<CalendarEvent>> SobreposHorario(List<CalendarEvent> Cevents) {
+        Map<CalendarEvent, List<CalendarEvent>> mapa = new HashMap<>();
+        for (CalendarEvent a : Cevents) {
+            for (CalendarEvent b : Cevents) {
+                if (a != b && a != null && b != null && isBetween(a, b)) {
+                    putmapa(mapa, a, b);
                     a.setIsSobreposto(true);
+                    b.setIsSobreposto(true);
+
+
                 }
-                mapaComSobreposicoes.put(b, mapa.get(b));
+
             }
+
         }
-        return mapaComSobreposicoes;
+        return mapa;
+    }
+
+    /**
+     * 
+     * Adiciona um evento a um mapa
+     * 
+     * @param mapa Mapa a qual vamos colocar o CalendarEvent
+     * @param a    Calendar que vai estar no mapa
+     * @param b    CalendarEvent que vai ser adicionado ao mapa, pelo a
+     */
+    private static void putmapa(Map<CalendarEvent, List<CalendarEvent>> mapa, CalendarEvent a, CalendarEvent b) {
+        if (!mapa.containsKey(a)) {
+            mapa.put(a, new ArrayList<CalendarEvent>());
+        }
+
+        List<CalendarEvent> eventosNoDia = mapa.get(a);
+        eventosNoDia.add(b);
+        mapa.put(a, eventosNoDia);
+    }
+
+    /**
+     * 
+     * Verifica se 2 CalendarEvents estão sobrepostos, ou seja, se um começa ou
+     * acaba enquanto outro decorre ou
+     * 
+     * @param a CalendarEvent que vamos verificar
+     * @param b CalendarEvent que já está no mapa
+     * @return verdade se estão sobrepostos
+     */
+
+    public static boolean isBetween(CalendarEvent a, CalendarEvent b) {
+        return ((a.getStartDate().before(b.getEndDate()) &&
+                a.getStartDate().after(b.getStartDate()))
+                || (a.getEndDate().before(b.getEndDate()) && a.getEndDate().after(b.getStartDate()))
+                || a.getStartDate().equals(b.getStartDate()) ||
+                a.getEndDate().equals(b.getEndDate()));
+
     }
 
     public static void main(String[] args) throws ParseException, IOException {
-        List<CalendarEvent> eventos = showCSV.showHorario(new File("output.csv"));
+
+        List<CalendarEvent> eventos = showCSV.showHorario(
+                new File("C:/Users/Utilizador/Desktop/ES2.0/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/UTestShowCSVFen.csv"));
+
         CalendarEvent b = new CalendarEvent("OLA", "xd", new Date(2022, 5, 12, 15, 30, 0),
                 new Date(2022, 5, 12, 17, 0, 0));
         eventos.add(b);
         eventos.add(b);
-        Map<Date, List<CalendarEvent>> mapa = SobreposicaoHorario.SobreposHorario(eventos);
 
-        for (Date d : mapa.keySet()) {
-            int count = 0;
+        Map<CalendarEvent, List<CalendarEvent>> mapa = SobreposicaoHorario.SobreposHorario(eventos);
+        System.out.println(mapa.size());
 
-            for (CalendarEvent e : mapa.get(d)) {
-                count = count + 1;
-                System.out.println(e.getTitle() + e.getIsSobreposto());
+        for (CalendarEvent ce : mapa.keySet()) {
+            for (CalendarEvent z : mapa.get(ce)) {
+                System.out.println(mapa.get(ce).size());
+
+                System.out.println(ce.getTitle() + "has" + z.getTitle());
             }
-            System.out.println(d + " " + count);
-
         }
+
     }
 }
