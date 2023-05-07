@@ -1,4 +1,4 @@
-package Save;
+package save;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,8 +27,7 @@ public class SaveJson{
 	 * 
 	 * @author JoaoMariaFranco
 	 */
-	public static void saveOnline(String username, String repository, String token, String path, String name) 
-			throws IOException{
+	public static void saveOnline(String username, String repository, String token, String path, String name) throws IOException{
 		name = name + ".json";
 
 		Path file = Paths.get(path);
@@ -51,14 +50,15 @@ public class SaveJson{
 	/**
 	 * Metodo saveLocalmente que salva um ficheiro Json numa diretoria escolhida pelo utilizador.
 	 * 
-	 * 
-	 * @param spath Localizacao do ficheiro localmente .
+	 * @param name Novo nome a ser dado ao ficheiro Json (e.g. name=ficheiro -> novo ficheiro "ficheiro.json").
+	 * @param path Localizacao do ficheiro localmente .
 	 * @param dpath Localizacao destino , onde se quer que o ficheiro seja gravado. 
 	 * 
 	 * @throws IOException
 	 * 
 	 * @author JoaoMariaFranco
 	 */
+
 
 	public static File saveLocalmente(String spath,String dpath) throws IOException{
 
@@ -101,7 +101,4 @@ public class SaveJson{
 
         }return file;
     }
-
 }
-
-

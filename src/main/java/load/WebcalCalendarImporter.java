@@ -1,4 +1,4 @@
-package Load;
+package load;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import Timetable.CalendarEvent;
+
+import timetable.CalendarEvent;
 /**
  * Classe que importa informacao de um Uri cria os eventos
  * @author tcast

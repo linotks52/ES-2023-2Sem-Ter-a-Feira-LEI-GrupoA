@@ -5,8 +5,9 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.List;
 
-import Load.URLFileDownloader;
-import Timetable.showCSV;
+
+import load.URLFileDownloader;
+import timetable.showCSV;
 
 import java.io.*;
 import java.net.URL;

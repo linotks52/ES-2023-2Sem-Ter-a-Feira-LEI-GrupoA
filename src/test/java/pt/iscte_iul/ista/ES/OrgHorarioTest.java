@@ -2,9 +2,9 @@ package pt.iscte_iul.ista.ES;
 
 import org.junit.jupiter.api.Test;
 
-import Timetable.CalendarEvent;
-import Timetable.OrgHorario;
-import Timetable.showCSV;
+import timetable.CalendarEvent;
+import timetable.OrgHorario;
+import timetable.showCSV;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

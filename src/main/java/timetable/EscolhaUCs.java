@@ -1,4 +1,4 @@
-package Timetable;
+package timetable;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,7 +23,7 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
-import Convert.JsonToCsv;
+import convert.JsonToCsv;
 
 /**
  * EscolhaUCs

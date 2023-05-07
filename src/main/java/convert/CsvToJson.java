@@ -1,4 +1,4 @@
-package Convert;
+package convert;
 
 import org.json.CDL;
 
@@ -22,7 +22,6 @@ public class CsvToJson {
      * @return the file converted to json
      */
     public static File convert(File f){
-    	//String[] name = f.getName().split("\\.");
         File output = new File("output.json"); 
         try {
             String csvAsString = new BufferedReader(new FileReader(f.getAbsolutePath())).lines().collect(Collectors.joining("\n"));
@@ -35,8 +34,5 @@ public class CsvToJson {
             e.printStackTrace();
         }
         return output;
-    }
-    public static void main(String[] args) {
-        convert(new File("/home/pereira/aulas/ES/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA-3/output.csv"));
     }
 }

@@ -1,4 +1,4 @@
-package Convert;
+package convert;
 
 import org.json.CDL;
 import org.json.JSONArray;
@@ -23,10 +23,8 @@ public class JsonToCsv {
      * @param  f file that the user summits 
      * @return the file converted to csv
      */
-    static public File convert(File f){
-    //	String[] name = f.getAbsolutePath().split("\\.");
+    public static  File convert(File f){
        File output = new File("output.csv"); 
-       // InputStream inputStream = JsonToCsv.class.getClassLoader().getResourceAsStream(f.getAbsolutePath());
         try { 
             BufferedReader br = new BufferedReader(new FileReader(f.getAbsolutePath()));
             JSONArray  jsonArray = new JSONArray(new JSONTokener(br.readLine()));
@@ -39,8 +37,5 @@ public class JsonToCsv {
             e.printStackTrace();
         }
         return output;
-    }
-    public static void main(String[] args) {
-        convert(new File("C:/Users/Utilizador/Desktop/ES/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA-3/src/main/resources/input.json"));
     }
 }

@@ -1,11 +1,7 @@
-package Load;
+package load;
 
 import java.io.*;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 
 /**
  * Classe abstrata que contém as funções para importar ficheiros por um url
@@ -14,6 +10,10 @@ import java.nio.file.Paths;
  */
 public abstract class URLFileDownloader {
 	
+	
+	  private URLFileDownloader() {
+		    throw new IllegalStateException("URLFileDownloader class");
+		  }
 	/**
 	 * Função que recebe um URL (String) e retorna o ficheiro nesse mesmo url
 	 * @param url o URL do ficheiro a ser descarregado
@@ -26,7 +26,6 @@ public abstract class URLFileDownloader {
 
         // Get file name and extension from URL
         String fileName = downloadURL.getFile().substring(downloadURL.getFile().lastIndexOf('/') + 1);
-        String fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
 
         // Create file with original file name and extension
         File outputFile = new File(fileName);
