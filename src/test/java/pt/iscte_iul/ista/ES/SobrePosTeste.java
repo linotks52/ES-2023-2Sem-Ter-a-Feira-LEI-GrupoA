@@ -10,9 +10,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import Timetable.CalendarEvent;
-import Timetable.SobreposicaoHorario;
-import Timetable.showCSV;
+import timetable.CalendarEvent;
+import timetable.SobreposicaoHorario;
+import timetable.showCSV;
 
 public class SobrePosTeste {
 

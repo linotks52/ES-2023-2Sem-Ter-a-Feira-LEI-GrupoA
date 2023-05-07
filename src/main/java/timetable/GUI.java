@@ -1,4 +1,4 @@
-package Timetable;
+package timetable;
 import javax.swing.*;
 
 
@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
-import Load.*;
-import Save.*;
-import Convert.*;
+import convert.*;
+import load.*;
+import save.*;
 
 /**
  * @author Douglas Lino
@@ -30,9 +30,7 @@ import Convert.*;
 	    private JFrame frame;
 	    private File file;
 	    private List<CalendarEvent> events;
-	    private List<CalendarEvent> listaenviada;
 	    private final static String CARD2 = "Card 2";
-
 	    
 	    
 	    public GUI() {
@@ -222,7 +220,6 @@ import Convert.*;
                 cardLayout.show(cardPanel, CARD2);
             }
         }
-	    
 	    /**
 	     * Função para carregar um ficheiro online (webcal com uma lista de eventos ou ficheiro obtido a partir de um URI)
 	     */
@@ -258,11 +255,11 @@ import Convert.*;
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 String filePath = fc.getSelectedFile().getAbsolutePath();
-                try {
+				try {
 					SaveJson.saveLocalmente(file.getAbsolutePath(), filePath);
-				} catch (IOException e2) {
-					e2.printStackTrace();
-				}   
+				} catch (IOException e) {
+					e.printStackTrace();
+				} 
             }
 	    }
 	    
