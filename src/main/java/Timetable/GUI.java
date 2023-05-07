@@ -31,6 +31,7 @@ import Convert.*;
 	    private File file;
 	    private List<CalendarEvent> events;
 	    private List<CalendarEvent> listaenviada;
+	    private final static String CARD2 = "Card 2";
 
 	    
 	    
@@ -108,7 +109,7 @@ import Convert.*;
 	        schedule.addActionListener(this);
 	        card2.add(schedule, gbc2);
 	        
-	        cardPanel.add(card2, "Card 2");
+	        cardPanel.add(card2, CARD2);
 	        
 	        JPanel card3 = new JPanel(new GridBagLayout());
 	        JLabel label3 = new JLabel("Selecione a forma de gravar");
@@ -203,13 +204,24 @@ import Convert.*;
 		 */
 			    
 	    public void load() {
-	    	int response = fc.showOpenDialog(null);
-	        if (response == JFileChooser.APPROVE_OPTION) {
-	        	file = fc.getSelectedFile();
-	            current.setText(fc.getSelectedFile().getName());
-	            cardLayout.show(cardPanel, "Card 2");
-	        }
-	    }
+            int response = fc.showOpenDialog(null);
+            if (response == JFileChooser.APPROVE_OPTION) {
+                file = fc.getSelectedFile();
+                if(file.getName().split("\\.")[1].equals("json"))
+                    convert(2);
+                else {
+                    try {
+                        file = SaveJson.saveLocalmente(file.getAbsolutePath(), "output.csv");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    fc.setSelectedFile(file);
+                    current.setText(file.getName());
+                }
+                System.out.println(file.getAbsolutePath());
+                cardLayout.show(cardPanel, CARD2);
+            }
+        }
 	    
 	    /**
 	     * Função para carregar um ficheiro online (webcal com uma lista de eventos ou ficheiro obtido a partir de um URI)
@@ -228,7 +240,7 @@ import Convert.*;
 	    				file = URLFileDownloader.downloadFileFromURL(url.getText());
 	    				current.setText(file.getName());
 	    			}
-		            cardLayout.show(cardPanel, "Card 2");
+		            cardLayout.show(cardPanel, CARD2);
 				} catch (Exception e2) {
 					e2.printStackTrace();
 				}
@@ -315,6 +327,10 @@ import Convert.*;
     		current.setText(file.getName());
 	    }
 	    
+	    /**
+	     * @param e Action event
+	     * Function that takes care of button events
+	     */
 	    
 	    public void actionPerformed(ActionEvent e) {
 	    	if(e.getSource() == load) {
@@ -336,7 +352,7 @@ import Convert.*;
 	    	}else if(e.getSource() == return1){
 	            cardLayout.show(cardPanel, "Card 1");
 	    	}else if(e.getSource() == return2) {
-	    		cardLayout.show(cardPanel, "Card 2");
+	    		cardLayout.show(cardPanel, CARD2);
 	    	}else if(e.getSource() == schedule) {
 	    		SimpleAgenda.main(null);
 	    	}

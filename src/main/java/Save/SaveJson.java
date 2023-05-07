@@ -51,8 +51,8 @@ public class SaveJson{
 	/**
 	 * Metodo saveLocalmente que salva um ficheiro Json numa diretoria escolhida pelo utilizador.
 	 * 
-	 * @param name Novo nome a ser dado ao ficheiro Json (e.g. name=ficheiro -> novo ficheiro "ficheiro.json").
-	 * @param path Localizacao do ficheiro localmente .
+	 * 
+	 * @param spath Localizacao do ficheiro localmente .
 	 * @param dpath Localizacao destino , onde se quer que o ficheiro seja gravado. 
 	 * 
 	 * @throws IOException
@@ -60,49 +60,47 @@ public class SaveJson{
 	 * @author JoaoMariaFranco
 	 */
 
-	public static void saveLocalmente(String spath,String dpath) throws IOException{
+	public static File saveLocalmente(String spath,String dpath) throws IOException{
 
-		BufferedReader bufferedReader = null;
-		BufferedWriter bufferedWriter= null;
+        BufferedReader bufferedReader = null;
+        BufferedWriter bufferedWriter= null;
 
+        File file = new File(dpath);
 
-
-
-
-		try {
-			bufferedReader = new BufferedReader(new FileReader(spath));
-			bufferedWriter=new BufferedWriter(new FileWriter(dpath));
+        try {
+            bufferedReader = new BufferedReader(new FileReader(spath));
+            bufferedWriter=new BufferedWriter(new FileWriter(file));
 
 
-				String line;
-				// Le cada linha do ficheiro json e rescreve-o no ficheiro json destino.
-				while ((line = bufferedReader.readLine()) != null) {
-					bufferedWriter.write(line);
-					bufferedWriter.newLine();
-				}
+                String line;
+                // Le cada linha do ficheiro json e rescreve-o no ficheiro json destino.
+                while ((line = bufferedReader.readLine()) != null) {
+                    bufferedWriter.write(line);
+                    bufferedWriter.newLine();
+                }
 
-			} catch (FileNotFoundException f){
-				f.printStackTrace();
+            } catch (FileNotFoundException f){
+                f.printStackTrace();
 
-			}
-			
-		
-		finally{
-			if(bufferedReader != null && bufferedWriter != null){
-
-				try{
-
-					// Fecha o bufferedReader e bufferedWriter.
-					bufferedReader.close();
-
-					bufferedWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+            }
 
 
-}}
+        finally{
+            if(bufferedReader != null && bufferedWriter != null){
+
+                try{
+
+                    // Fecha o bufferedReader e bufferedWriter.
+                    bufferedReader.close();
+
+                    bufferedWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }return file;
+    }
 
 }
 
