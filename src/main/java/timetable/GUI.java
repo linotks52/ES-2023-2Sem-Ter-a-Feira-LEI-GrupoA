@@ -205,7 +205,18 @@ import save.*;
 	    	int response = fc.showOpenDialog(null);
 	        if (response == JFileChooser.APPROVE_OPTION) {
 	        	file = fc.getSelectedFile();
-	            current.setText(fc.getSelectedFile().getName());
+	        	if(file.getName().split("\\.")[1].equals("json"))
+	            	convert(2);
+	            else {
+	            	try {
+						file = SaveJson.saveLocalmente(file.getAbsolutePath(), "output.csv");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+	        		fc.setSelectedFile(file);
+	        		current.setText(file.getName());
+	            }
+	        	System.out.println(file.getAbsolutePath());
 	            cardLayout.show(cardPanel, CARD2);
 	        }
 	    }
@@ -245,13 +256,11 @@ import save.*;
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 String filePath = fc.getSelectedFile().getAbsolutePath();
-				SaveJson.saveLocalmente(file.getAbsolutePath(), filePath);
-/*
-                try {
+				try {
 					SaveJson.saveLocalmente(file.getAbsolutePath(), filePath);
-				} catch (IOException e2) {
-					e2.printStackTrace();
-				}   */
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
             }
 	    }
 	    
@@ -337,7 +346,7 @@ import save.*;
 	    	}else if(e.getSource() == return1){
 	            cardLayout.show(cardPanel, "Card 1");
 	    	}else if(e.getSource() == return2) {
-	    		cardLayout.show(cardPanel, "Card 2");
+	    		cardLayout.show(cardPanel, CARD2);
 	    	}else if(e.getSource() == schedule) {
 	    		
 	    	}
