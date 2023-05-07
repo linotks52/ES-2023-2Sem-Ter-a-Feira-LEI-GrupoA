@@ -30,7 +30,7 @@ class SaveJsonTest {
 	public void testSaveLocalmente() throws IOException {
 		
 		
-		String dFile="FicheirosDeTeste/";
+		String dFile="FicheirosDeTeste/TESTE.json";
 		String sFile = "OLA.csv";
 		SaveJson.saveLocalmente(sFile,dFile);
 		File f = new File("FicheirosDeTeste/TESTE.json");

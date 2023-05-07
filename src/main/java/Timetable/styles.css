@@ -1,14 +1,17 @@
 .appointmentnormal {
     -fx-background-color: green;
     -fx-text-fill: white;
+
 }
 
 .appointmentlotado {
     -fx-background-color: blue;
     -fx-text-fill: white;
+
 }
 
 .appointmentsobreposto {
     -fx-background-color: red;
     -fx-text-fill: white;
+
 }
