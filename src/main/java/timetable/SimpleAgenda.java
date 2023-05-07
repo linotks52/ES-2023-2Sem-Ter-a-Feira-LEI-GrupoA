@@ -101,20 +101,22 @@ public class SimpleAgenda extends Application {
         styleforsobreposto.setStyleClass("appointmentsobreposto");
         
         for(CalendarEvent e : lista) {
-        	Appointment exampleappointment = new Agenda.AppointmentImpl();
-        	exampleappointment.setStartLocalDateTime(toLocalDateTime(e.getStartDate()));
-        	exampleappointment.setEndLocalDateTime(toLocalDateTime(e.getEndDate()));
-        	exampleappointment.setDescription(e.getTitle() + e.getDescription());
-        	exampleappointment.setSummary(e.getTitle() + e.getDescription());
-        	if(e.getIsSobreposto()) {
-            	exampleappointment.setAppointmentGroup(styleforsobreposto);
-            	numerosobreposicoes++;
+        	if(e.getStartDate() != null && e.getEndDate() != null) {
+	        	Appointment exampleappointment = new Agenda.AppointmentImpl();
+	        	exampleappointment.setStartLocalDateTime(toLocalDateTime(e.getStartDate()));
+	        	exampleappointment.setEndLocalDateTime(toLocalDateTime(e.getEndDate()));
+	        	exampleappointment.setDescription(e.getTitle() + e.getDescription());
+	        	exampleappointment.setSummary(e.getTitle() + e.getDescription());
+	        	exampleappointment.setAppointmentGroup(stylefornormal);
+	        	if(e.getIsSobreposto()) {
+	            	exampleappointment.setAppointmentGroup(styleforsobreposto);
+	            	numerosobreposicoes++;
+	        	}
+	        	if(e.getIsSobrelotado()) {
+	        	exampleappointment.setAppointmentGroup(styleforlotado);}
+	        	
+	        	appointments.add(exampleappointment);
         	}
-        	if(e.getIsSobrelotado()) {
-        	exampleappointment.setAppointmentGroup(styleforlotado);}
-        	exampleappointment.setAppointmentGroup(stylefornormal);
-        	
-        	appointments.add(exampleappointment);
         }
 
       
@@ -127,7 +129,7 @@ public class SimpleAgenda extends Application {
         Label dateLabel = new Label();
         dateLabel.textProperty().bind(agenda.displayedLocalDateTime().asString(""));
         
-        Label sobreposicoes = new Label("Número de sobreposições: " + Integer.toString(numerosobreposicoes));
+        Label sobreposicoes = new Label("Número de sobreposições: " + Integer.toString(numerosobreposicoes/2));
         
         Label sobrelotacoes = new Label("Número de sobrelotações: " + Integer.toString(numerosobrelotacoes));
         

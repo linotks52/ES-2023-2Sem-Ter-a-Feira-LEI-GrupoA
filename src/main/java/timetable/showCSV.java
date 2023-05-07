@@ -78,37 +78,47 @@ public class showCSV {
     public static void lerCSVFenix(File a, List<CalendarEvent> horario) throws ParseException, IOException {
         Reader leitor = new BufferedReader(
                 new InputStreamReader(new FileInputStream(a), StandardCharsets.UTF_8));
-        CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
+        CSVParser parser = new CSVParserBuilder().withSeparator(';').build();
         CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
 
         String[] cabecalho = csvReader.readNext(); // Ler a primeira linha como cabeçalho para ser removido e n ler
 
         String[] linha;
         while ((linha = csvReader.readNext()) != null) {
-      
+
             CalendarEvent evento = new CalendarEvent();
-            evento.setTitle(linha[0]);
-            evento.addDescription(linha[1]);
-            String[] data = linha[2].split(" ");
-           // ArrayList<String> datahelp=new ArrayList<String>();;
-           // datahelp.add(data[1]);
-            //datahelp.add(data[2]);
-            //datahelp.add(data[3]);
-            //datahelp.add(data[5]);
-            //System.out.println(datahelp.get(0)+ " " +datahelp.get(1)+ " " + datahelp.get(2)+ " " +datahelp.get(3));
-            
+            evento.setTitle(linha[1]);
+            evento.addDescription(linha[0] + " " + linha[4] + " " + linha[10]);
+
+            // String[] data = linha[2].split(" ");
+            // ArrayList<String> datahelp=new ArrayList<String>();;
+            // datahelp.add(data[1]);
+            // datahelp.add(data[2]);
+            // datahelp.add(data[3]);
+            // datahelp.add(data[5]);
+            // System.out.println(datahelp.get(0)+ " " +datahelp.get(1)+ " " +
+            // datahelp.get(2)+ " " +datahelp.get(3));
+
+            String[] horaINI = linha[6].split(":");
+            String[] horaFim = linha[7].split(":");
+            String[] data2 = linha[8].split("/");
+
+            System.out.println("data "+linha[8]);
+            if (data2.length > 1) {
+                evento.setStartDate(ColocarCalCSV(horaINI, data2));
+
+                // System.out.println(aa.getTime());
+                // String[] data = linha[3].split(" ");
+                evento.setEndDate(ColocarCalCSV(horaFim, data2));
+            }
         
 
-            evento.setStartDate(ColocarCalCSV(data));
-            //Date aa = ColocarCalCSV(data);
-            //System.out.println(aa.getTime());
-            String[] data2 = linha[3].split(" ");
-            evento.setEndDate(ColocarCalCSV(data2));
-            horario.add(evento);
+        horario.add(evento);
         }
     }
 
- 
+    
+
     /**
      * Lê o ficheiro CSV com o formato enviado pelo professor, e adiciona a uma
      * Lista de CalendarEvents os seus Eventos
@@ -123,7 +133,7 @@ public class showCSV {
     public static void lerCSVMoodle(File a, List<CalendarEvent> horario) throws ParseException, IOException {
         Reader leitor = new BufferedReader(
                 new InputStreamReader(new FileInputStream(a), StandardCharsets.UTF_8));
-        CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
+        CSVParser parser = new CSVParserBuilder().withSeparator(';').build();
         CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
         String[] cabecalho = csvReader.readNext(); // Ler a primeira linha como cabeçalho para ser removido e n ler
 
@@ -131,12 +141,12 @@ public class showCSV {
 
         while ((linha = csvReader.readNext()) != null) {
             CalendarEvent evento = new CalendarEvent();
-            evento.setTitle(linha[6]);
-            evento.addDescription(linha[0] + " " + linha[3] + " " + linha[5] + " " + linha[7] + " "
-                    + linha[8] + " " + linha[9]);
-            String[] horaINI = linha[1].split(":");
-            String[] horaFim = linha[4].split(":");
-            String[] data = linha[10].split("/");
+            evento.setTitle(linha[1]);
+            evento.addDescription(linha[0] + " " + linha[2] + " " + linha[3] + " " + linha[4] + " "
+                    + linha[5] + " " + " " + linha[8] + linha[9]);
+            String[] horaINI = linha[6].split(":");
+            String[] horaFim = linha[7].split(":");
+            String[] data = linha[9].split("/");
             if (data.length > 1) {
                 evento.setStartDate(ColocarCalJSON(horaINI, data));
                 evento.setEndDate(ColocarCalJSON(horaFim, data));
@@ -180,7 +190,6 @@ public class showCSV {
             horario.add(evento);
         }
     }
-    
 
     /**
      * Devolve o numero correspondente ao mês inserido
@@ -221,22 +230,19 @@ public class showCSV {
         }
     }
 
-
-    
-    public static Date ColocarCalCSV(String[] data) {
+    public static Date ColocarCalCSV(String[] hora, String[] data) {
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, Integer.parseInt(data[5]));
-        cal.set(Calendar.MONTH, checkData(data[1]));
-        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(data[2]));
-        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(data[3].split(":")[0]));
-        cal.set(Calendar.MINUTE, Integer.parseInt(data[3].split(":")[1]));
-        cal.set(Calendar.SECOND, Integer.parseInt(data[3].split(":")[2]));
+        cal.set(Calendar.YEAR, Integer.parseInt(data[2]));
+        cal.set(Calendar.MONTH, Integer.parseInt(data[1]));
+        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(data[0]));
+        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hora[0]));
+        cal.set(Calendar.MINUTE, Integer.parseInt(hora[1]));
+        cal.set(Calendar.SECOND, Integer.parseInt(hora[2]));
         Date a = cal.getTime();
+
         return a;
     }
-      
-        
-    
+
     /**
      * 
      * Cria um objeto do tipo Date a partir de duas strings representando a hora e a
@@ -273,7 +279,7 @@ public class showCSV {
         writer.write("Event 2,Description 2,Wed May 20 15:00:00 BST 2022,Mon May 20 17:00:00 BST 2022\n");
         writer.close();
 
-        File b = new File("C:/Users/Utilizador/Desktop/ES2.0/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/output4.csv");
+        File b = new File("C:/Users/Utilizador/Desktop/ES2.0/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/horario_exemplo.csv");
         List<CalendarEvent> eventos = showHorario(b);
         for (CalendarEvent evento : eventos) {
 
@@ -281,11 +287,10 @@ public class showCSV {
             System.out.println("Descrição: " + evento.getDescription());
             if (evento.getStartDate() != null) {
                 System.out.println("Data de início: " + evento.getStartDate().toString());
-              //  System.out.println("Data de fim: " + evento.getEndDate().toString());
+                // System.out.println("Data de fim: " + evento.getEndDate().toString());
             }
             System.out.println();
         }
 
     }
 }
-

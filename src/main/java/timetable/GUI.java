@@ -26,7 +26,7 @@ import save.*;
 	public class GUI extends JFrame implements ActionListener {
 		private JPanel cardPanel;
 	    private CardLayout cardLayout;
-	    private JButton load, upload, save, csvToJson, jsonToCsv, local, online, confirm, return1, return2, schedule, choose;
+	    private JButton load, upload, save, csvToJson, jsonToCsv, local, online, confirm, return1, return2, schedule, choose, mostrar;
 	    private JTextField url, username, repository, name, token;
 	    private JFileChooser fc;
 	    private JLabel current, label4, label5, label6, label7;
@@ -248,6 +248,11 @@ import save.*;
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+                try {
+					nomes = EscolhaUCs.UCsDisp(file);
+				} catch (IOException e) {
+					e.printStackTrace();
+				} 
                 cardLayout.show(cardPanel, CARD2);
             }
         }
@@ -262,12 +267,14 @@ import save.*;
              }else {
 	    		try {
 	    			if(url.getText().substring(0,6).equals("webcal")) {
-	    				file = WebcaltoJson.webcalltoCSV(url.getText());
+	    				String uri = WebcalCalendarImporter.WebcaltoURI(url.getText());
+	    				file = WebcaltoJson.webcalltoCSV(uri);
 	    				current.setText(file.getName());
 	    			}else { 
 	    				file = URLFileDownloader.downloadFileFromURL(url.getText());
 	    				current.setText(file.getName());
 	    			}
+					nomes = EscolhaUCs.UCsDisp(file);
 		            cardLayout.show(cardPanel, CARD2);
 				} catch (Exception e2) {
 					e2.printStackTrace();
@@ -361,12 +368,16 @@ import save.*;
 	    
 	    public void choose() {
 	    	JLabel title = new JLabel("Selecione as UCS");
+	    	mostrar = new JButton("Ver horário");
+	    	mostrar.addActionListener(this);
 	    	Insets inset = new Insets(10, 10, 10, 10);
 	        GridBagConstraints grid = new GridBagConstraints();
 	    	grid.insets = inset;
 	    	grid.gridx=1;
 	    	grid.gridy=0;
 	    	panel.add(title, grid);
+	    	grid.gridx++;
+	    	panel.add(mostrar,grid);
 	    	
 	    	for (String  uc : nomes) {
 	    		grid.gridy++;
@@ -378,6 +389,21 @@ import save.*;
 	    	cardPanel.add(checkboxes, "Card 4");
     		cardLayout.show(cardPanel, "Card 4");
 
+	    }
+	    
+	    private void update() {
+	    	String[] escolhas = new String[cbs.size()];
+	    	int i = 0;
+	    	for(JCheckBox cb : cbs) {
+	    		if(cb.isSelected())
+	    			escolhas[i++]=cb.getText();
+	    	}
+	    	try {
+				EscolhaUCs.RewriteCSV(escolhas, file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	    	SimpleAgenda.main(null);
 	    }
 	    
 	    /**
@@ -410,6 +436,8 @@ import save.*;
 	    		SimpleAgenda.main(null);
 	    	}else if(e.getSource() == choose) {
 	    		choose();
+	    	}else if(e.getSource() == mostrar) {
+	    		update();
 	    	}
             
 	    }

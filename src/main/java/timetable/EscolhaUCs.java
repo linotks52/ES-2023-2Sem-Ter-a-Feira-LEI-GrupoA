@@ -45,14 +45,14 @@ public class EscolhaUCs {
             List<String> Ucs = new ArrayList<>();
             Reader leitor = new BufferedReader(
                     new InputStreamReader(new FileInputStream(f.getAbsolutePath()), StandardCharsets.UTF_8));
-            CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
+            CSVParser parser = new CSVParserBuilder().withSeparator(';').build();
             CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
             csvReader.readNext();
-
+            csvReader.readNext();
             String[] linha;
             while ((linha = csvReader.readNext()) != null) {
-                if (!Ucs.contains(linha[6])) {
-                    Ucs.add(linha[6]);
+                if (!Ucs.contains(linha[1])) {
+                    Ucs.add(linha[1]);
                 }
             }
             return Ucs;
@@ -77,23 +77,25 @@ public class EscolhaUCs {
         if (f.getAbsolutePath().endsWith("csv")) {
             Reader leitor = new BufferedReader(
                     new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
-            CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
+            CSVParser parser = new CSVParserBuilder().withSeparator(';').build();
             CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
             String[] cabecalho = csvReader.readNext();
             ArrayList<String> listactudo = new ArrayList<>();
             String[] linha;
-
+            
             while ((linha = csvReader.readNext()) != null) {
-                if (checklinha(linha[0], ucsChecked)) {
-                    listactudo.add(linha[0] + linha[1] + linha[2] + linha[3]);
+          
+                if (checklinha(linha[1], ucsChecked)) {
+          
+                    listactudo.add(linha[0]+ "," +linha[1]+ "," +linha[2]+ "," +linha[3]+ "," +linha[4]+ "," +linha[5]+ "," +linha[6]+ "," + linha[7]+ "," +linha[8]+ "," + linha[9] );
                 }
             }
 
             csvReader.close();
             BufferedWriter writer2 = new BufferedWriter(new FileWriter(f.getAbsolutePath()));
-            writer2.write(cabecalho[0] + "," + cabecalho[1] + "," + cabecalho[2] + "," + cabecalho[3]);
+            writer2.write(cabecalho[0] + "\n");
             for (String linha1 : listactudo) {
-                writer2.append(linha1);
+                writer2.append(linha1 +"\n" );
             }
             writer2.close();
         } else {
@@ -101,26 +103,30 @@ public class EscolhaUCs {
         }
     }
 
-   /**
-    * Verifica se uma linha contém algumas das string do ucsChecked 
-    * @param linha a linha que queremos verificar   
-    * @param ucsChecked conjunto de strings que vamos correr e verificar se a linha contem
-    * @return   verdade se contiver
-    */
-   
+    /**
+     * Verifica se uma linha contém algumas das string do ucsChecked
+     * 
+     * @param linha      a linha que queremos verificar
+     * @param ucsChecked conjunto de strings que vamos correr e verificar se a linha
+     *                   contem
+     * @return verdade se contiver
+     */
+
     private static boolean checklinha(String linha, String[] ucsChecked) {
         for (String s : ucsChecked) {
-            if (linha.contains(s)) {
-                return true;
-            }
+        	if(s!=null) {
+	            if(linha.contains(s)) {
+	                return true;
+	            }
+        	}
         }
         return false;
     }
 
     public static void main(String[] args) throws ParseException, IOException {
 
-        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList("Engenharia de Software", "Agentes Autónomos"));
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList("Teoria dos Jogos e dos Contratos", "Gestão de Conflitos"));
         String[] a = arrayList.toArray(new String[0]);
-        EscolhaUCs.RewriteCSV(a, new File("output4.csv"));
+        EscolhaUCs.RewriteCSV(a, new File("horario_exemplo.csv"));
     }
 }

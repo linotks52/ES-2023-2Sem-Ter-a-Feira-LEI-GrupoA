@@ -31,10 +31,10 @@ class SaveJsonTest {
 	public void testSaveLocalmente() throws IOException {
 		
 		
-		String dFile="FicheirosDeTeste/TESTE.json";
+		String dFile="TESTE.json";
 		String sFile = "OLA.csv";
 		SaveJson.saveLocalmente(sFile,dFile);
-		File f = new File("FicheirosDeTeste/TESTE.json");
+		File f = new File("TESTE.json");
 		assertTrue(f.exists());
 		f.delete();
 		

@@ -15,6 +15,7 @@ import java.util.Map;
  * do calendário.
  */
 public class SobreposicaoHorario {
+	
 
     /**
      * 
@@ -30,12 +31,12 @@ public class SobreposicaoHorario {
         Map<CalendarEvent, List<CalendarEvent>> mapa = new HashMap<>();
         for (CalendarEvent a : Cevents) {
             for (CalendarEvent b : Cevents) {
-                if (a != b && a != null && b != null && isBetween(a, b)) {
-                    putmapa(mapa, a, b);
-                    a.setIsSobreposto(true);
-                    b.setIsSobreposto(true);
-
-
+                if (a != b && a != null && b != null && a.getStartDate() != null && b.getStartDate() != null && a.getEndDate() != null && b.getEndDate() != null) {
+	               if(isBetween(a, b)) { 
+                		putmapa(mapa, a, b);
+	                    a.setIsSobreposto(true);
+	                    b.setIsSobreposto(true);
+	               }
                 }
 
             }
