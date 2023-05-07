@@ -49,6 +49,7 @@ public abstract class WebcalCalendarImporter {
         connection.connect();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String line;
+        String linha;
         CalendarEvent currentEvent = null;
         
         while ((line = bufferedReader.readLine()) != null) {
@@ -57,9 +58,15 @@ public abstract class WebcalCalendarImporter {
             } else if (line.startsWith("END:VEVENT")) {
                 events.add(currentEvent);
                 currentEvent = null;
+            } else if (line.startsWith("SUMMARY")) {
+            	parseTitle(line,currentEvent);
+            	while((linha = bufferedReader.readLine()) != "DESCRIPTION:") {
+            		parseTitle(linha,currentEvent);
+            	}
             } else if (currentEvent != null) {
                 parseLine(line, currentEvent);
             }
+            
         }
         
         bufferedReader.close();
@@ -74,9 +81,7 @@ public abstract class WebcalCalendarImporter {
      * @throws ParseException caso exista um erro a converter a data
      */
     private static void parseLine(String line, CalendarEvent event) throws ParseException {
-        if (line.startsWith("SUMMARY:")) {
-            event.setTitle(line.substring(8));
-        } else if (line.startsWith("DESCRIPTION:")) {
+        if (line.startsWith("DESCRIPTION:")) {
             event.addDescription(line.substring(12));
         } else if (line.startsWith("DTSTART:")) {
             String dateString = line.substring(8);
@@ -89,6 +94,15 @@ public abstract class WebcalCalendarImporter {
         } else if (!(line.startsWith("DTSTAMP") || line.startsWith("UID"))){       	
         	event.addDescription(line);
         }
+        
+    }
+    
+    private static void parseTitle(String line, CalendarEvent event) throws ParseException {
+    	String linha = line;
+        if (line.startsWith("SUMMARY:")) {
+            linha = line.substring(8);
+        }
+        event.addTitle(linha);
         
     }
 }
