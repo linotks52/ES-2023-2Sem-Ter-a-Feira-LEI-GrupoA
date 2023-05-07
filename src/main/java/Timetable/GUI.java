@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import Load.*;
@@ -29,6 +30,7 @@ import Convert.*;
 	    private JFrame frame;
 	    private File file;
 	    private List<CalendarEvent> events;
+	    private List<CalendarEvent> listaenviada;
 
 	    
 	    
@@ -336,7 +338,7 @@ import Convert.*;
 	    	}else if(e.getSource() == return2) {
 	    		cardLayout.show(cardPanel, "Card 2");
 	    	}else if(e.getSource() == schedule) {
-	    		MyLauncher.main(null);
+	    		SimpleAgenda.main(null);
 	    	}
             
 	    }
