@@ -35,7 +35,7 @@ import jfxtras.scene.control.LocalDateTimeTextField;
  * Classe da GUI que representa a agenda
  * @version 1.0
  */
-public abstract class SimpleAgenda extends Application {
+public class SimpleAgenda extends Application {
 	private LocalDateTime currentdate;
 
 	/**

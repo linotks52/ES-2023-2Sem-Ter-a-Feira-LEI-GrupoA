@@ -10,7 +10,10 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import convert.*;
 import load.*;
@@ -23,17 +26,33 @@ import save.*;
 	public class GUI extends JFrame implements ActionListener {
 		private JPanel cardPanel;
 	    private CardLayout cardLayout;
-	    private JButton load, upload, save, csvToJson, jsonToCsv, local, online, confirm, return1, return2, schedule;
+	    private JButton load, upload, save, csvToJson, jsonToCsv, local, online, confirm, return1, return2, schedule, choose;
 	    private JTextField url, username, repository, name, token;
 	    private JFileChooser fc;
 	    private JLabel current, label4, label5, label6, label7;
 	    private JFrame frame;
 	    private File file;
 	    private List<CalendarEvent> events;
-	    private final static String CARD2 = "Card 2";
+	    private static final String CARD2 = "Card 2";
+	    private List<String> nomes = new ArrayList<>();
+	    private List<JCheckBox> cbs = new ArrayList<>();
+	    private Map<String, JCheckBox> ucs = new HashMap<>();
+    	private JPanel panel = new JPanel(new GridBagLayout());
+	    private JScrollPane checkboxes = new JScrollPane(panel);
 	    
 	    
 	    public GUI() {
+	    	nomes.add("Mecânica e Eletricidade");
+	    	nomes.add("Pensamento Crítico");
+	    	nomes.add("Base de Dados");
+	    	nomes.add("Introdução à Programação");
+	    	nomes.add("Sistemas Operativos");
+	    	nomes.add("Fundamentos de Redes de Computadores");
+	    	nomes.add("Arquitetura de Redes");
+	    	nomes.add("Processamento de Informação");
+	    	nomes.add("Cáculo I");
+	    	nomes.add("Cáculo II");
+	    	nomes.add("Engenharia de Software");
 	    	cardLayout = new CardLayout();
 	        cardPanel = new JPanel(cardLayout);
 	        getContentPane().add(cardPanel);
@@ -102,7 +121,12 @@ import save.*;
 	        return1.addActionListener(this);
 	        card2.add(return1, gbc2);
 	        
-	        gbc2.gridx=2;
+	        gbc2.gridx++;
+	        choose = new JButton("Escolher UCS");
+	        choose.addActionListener(this);
+	        card2.add(choose, gbc2);
+	        
+	        gbc2.gridx++;
 	        schedule = new JButton("Ver horário");
 	        schedule.addActionListener(this);
 	        card2.add(schedule, gbc2);
@@ -190,7 +214,9 @@ import save.*;
 	        frame = new JFrame("Schedule management");
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame.add(cardPanel);
-
+	        
+	        cardPanel.add(checkboxes, "Card 4");
+	        
 	        // Display the window
 	        frame.setSize(800, 400);
 	        frame.setVisible(true);
@@ -217,6 +243,11 @@ import save.*;
                     current.setText(file.getName());
                 }
                 System.out.println(file.getAbsolutePath());
+                try {
+					nomes.addAll(EscolhaUCs.UCsDisp(file));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
                 cardLayout.show(cardPanel, CARD2);
             }
         }
@@ -231,8 +262,8 @@ import save.*;
              }else {
 	    		try {
 	    			if(url.getText().substring(0,6).equals("webcal")) {
-	    				events = WebcalCalendarImporter.importEventsFromWebcal(WebcalCalendarImporter.WebcaltoURI(url.getText()));
-	    				current.setText("Web calendar");
+	    				file = WebcaltoJson.webcalltoCSV(url.getText());
+	    				current.setText(file.getName());
 	    			}else { 
 	    				file = URLFileDownloader.downloadFileFromURL(url.getText());
 	    				current.setText(file.getName());
@@ -325,6 +356,31 @@ import save.*;
 	    }
 	    
 	    /**
+	     * Função para gerar o ecrã de escolha de ucs
+	     */
+	    
+	    public void choose() {
+	    	JLabel title = new JLabel("Selecione as UCS");
+	    	Insets inset = new Insets(10, 10, 10, 10);
+	        GridBagConstraints grid = new GridBagConstraints();
+	    	grid.insets = inset;
+	    	grid.gridx=1;
+	    	grid.gridy=0;
+	    	panel.add(title, grid);
+	    	
+	    	for (String  uc : nomes) {
+	    		grid.gridy++;
+	    		JCheckBox disciplina = new JCheckBox(uc);
+	    		cbs.add(disciplina);
+	    		panel.add(disciplina, grid);
+	    		
+	    	}
+	    	cardPanel.add(checkboxes, "Card 4");
+    		cardLayout.show(cardPanel, "Card 4");
+
+	    }
+	    
+	    /**
 	     * @param e Action event
 	     * Function that takes care of button events
 	     */
@@ -352,6 +408,8 @@ import save.*;
 	    		cardLayout.show(cardPanel, CARD2);
 	    	}else if(e.getSource() == schedule) {
 	    		SimpleAgenda.main(null);
+	    	}else if(e.getSource() == choose) {
+	    		choose();
 	    	}
             
 	    }
