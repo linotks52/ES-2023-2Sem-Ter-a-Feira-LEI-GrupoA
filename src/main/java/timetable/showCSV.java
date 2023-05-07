@@ -51,7 +51,7 @@ public class showCSV {
             CSVReader csvReader = new CSVReaderBuilder(leitor).withCSVParser(parser).build();
             String[] cabecalho = csvReader.readNext();
             String[] Primlinha = csvReader.readNext();
-            char a = Primlinha[1].charAt(0);
+            char a = Primlinha[0].charAt(0);
             if (Character.isDigit(a)) {
                 lerCSVMoodle(path, horario);
             } else {
