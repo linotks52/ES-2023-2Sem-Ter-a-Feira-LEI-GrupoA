@@ -1,4 +1,4 @@
-package Timetable;
+package timetable;
 import javax.swing.*;
 
 
@@ -11,9 +11,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import Load.*;
-import Save.*;
-import Convert.*;
+import convert.*;
+import load.*;
+import save.*;
 
 /**
  * @author Douglas Lino
@@ -29,6 +29,7 @@ import Convert.*;
 	    private JFrame frame;
 	    private File file;
 	    private List<CalendarEvent> events;
+	    private static final String CARD2 = "Card 2";
 
 	    
 	    
@@ -106,7 +107,7 @@ import Convert.*;
 	        schedule.addActionListener(this);
 	        card2.add(schedule, gbc2);
 	        
-	        cardPanel.add(card2, "Card 2");
+	        cardPanel.add(card2, CARD2);
 	        
 	        JPanel card3 = new JPanel(new GridBagLayout());
 	        JLabel label3 = new JLabel("Selecione a forma de gravar");
@@ -205,7 +206,7 @@ import Convert.*;
 	        if (response == JFileChooser.APPROVE_OPTION) {
 	        	file = fc.getSelectedFile();
 	            current.setText(fc.getSelectedFile().getName());
-	            cardLayout.show(cardPanel, "Card 2");
+	            cardLayout.show(cardPanel, CARD2);
 	        }
 	    }
 	    
@@ -226,7 +227,7 @@ import Convert.*;
 	    				file = URLFileDownloader.downloadFileFromURL(url.getText());
 	    				current.setText(file.getName());
 	    			}
-		            cardLayout.show(cardPanel, "Card 2");
+		            cardLayout.show(cardPanel, CARD2);
 				} catch (Exception e2) {
 					e2.printStackTrace();
 				}
@@ -244,11 +245,13 @@ import Convert.*;
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 String filePath = fc.getSelectedFile().getAbsolutePath();
+				SaveJson.saveLocalmente(file.getAbsolutePath(), filePath);
+/*
                 try {
-					SaveJson.saveLocal(file.getAbsolutePath(), filePath);
+					SaveJson.saveLocalmente(file.getAbsolutePath(), filePath);
 				} catch (IOException e2) {
 					e2.printStackTrace();
-				}   
+				}   */
             }
 	    }
 	    

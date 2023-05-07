@@ -9,7 +9,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.kohsuke.github.*;
 
-import Save.SaveJson;
+import save.SaveJson;
 
 
 
@@ -32,7 +32,8 @@ class SaveJsonTest {
 		
 		String dFile="FicheirosDeTeste/";
 		String sFile = "OLA.csv";
-		SaveJson.saveLocalmente("TESTE",sFile,dFile);
+		String name = "TESTE";
+		SaveJson.saveLocalmente(sFile,dFile+name);
 		File f = new File("FicheirosDeTeste/TESTE.json");
 		assertTrue(f.exists());
 		f.delete();

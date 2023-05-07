@@ -1,4 +1,4 @@
-package Timetable;
+package timetable;
 
 import java.util.Date;
 

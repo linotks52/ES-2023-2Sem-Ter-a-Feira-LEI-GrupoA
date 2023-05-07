@@ -7,8 +7,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import Timetable.CalendarEvent;
-import Timetable.SobrelotacaoHorario;
+
+import timetable.CalendarEvent;
+import timetable.SobrelotacaoHorario;
 
 class SobrelotacaoHorarioTest {
 

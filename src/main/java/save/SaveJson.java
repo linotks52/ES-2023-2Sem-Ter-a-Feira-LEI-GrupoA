@@ -1,4 +1,4 @@
-package Save;
+package save;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,29 +7,29 @@ import java.nio.file.Paths;
 import org.kohsuke.github.*;
 
 /**
- * Classe que Grava um Ficheiro csv numa diretoria local ou repositorio no GitHub
+ * Classe que Grava um Ficheiro json numa diretoria local ou repositorio no GitHub
  * 
  * @author JoaoMariaFranco
  *
  */
 
-public class SaveCsv{
+public class SaveJson{
 	/**
-	 * Metodo saveOnline que salva um ficheiro csv num repositorio GitHub atraves de um token pessoal.
+	 * Metodo saveOnline que salva um ficheiro Json num repositorio GitHub atraves de um token pessoal.
 	 * 
 	 * @param username nome do dono do repositorio a que se quer aceder.
 	 * @param repository nome do repositorio que se quer aceder.
 	 * @param token token de accesso pessoal a um repositorio.
 	 * @param path Localizacao do ficheiro localmente , que se quer gravar no Github.
-	 * @param name Novo nome a ser dado ao ficheiro csv (e.g. name=ficheiro -> novo ficheiro "ficheiro.csv").
+	 * @param name Novo nome a ser dado ao ficheiro Json (e.g. name=ficheiro -> novo ficheiro "ficheiro.json").
 	 * 
 	 * @throws IOException
-   * 
+	 * 
 	 * @author JoaoMariaFranco
 	 */
 	public static void saveOnline(String username, String repository, String token, String path, String name) 
-						throws IOException{
-		name = name + ".csv";
+			throws IOException{
+		name = name + ".json";
 
 		Path file = Paths.get(path);
 		byte[] fileContent = Files.readAllBytes(file);
@@ -47,10 +47,11 @@ public class SaveCsv{
 	}
 
 
+
 	/**
-	 * Metodo saveLocalmente que salva um ficheiro Csv numa diretoria escolhida pelo utilizador.
+	 * Metodo saveLocalmente que salva um ficheiro Json numa diretoria escolhida pelo utilizador.
 	 * 
-	 * @param name Novo nome a ser dado ao ficheiro Json (e.g. name=ficheiro -> novo ficheiro "ficheiro.csv").
+	 * @param name Novo nome a ser dado ao ficheiro Json (e.g. name=ficheiro -> novo ficheiro "ficheiro.json").
 	 * @param path Localizacao do ficheiro localmente .
 	 * @param dpath Localizacao destino , onde se quer que o ficheiro seja gravado. 
 	 * 
@@ -59,25 +60,33 @@ public class SaveCsv{
 	 * @author JoaoMariaFranco
 	 */
 
-
-	public static void saveLocalmente(String name,String spath,String dpath){
+	public static void saveLocalmente(String spath,String dpath){
 
 		BufferedReader bufferedReader = null;
 		BufferedWriter bufferedWriter= null;
 
-		name=name+".csv";
 
-		dpath=dpath + name;
+
+		//name=name+".json";
+
+		//dpath=dpath + name;
+
 
 		try {
 			bufferedReader = new BufferedReader(new FileReader(spath));
 			bufferedWriter=new BufferedWriter(new FileWriter(dpath));
 
-			String line;
-			// Le cada linha do ficheiro csv e rescreve-o no ficheiro csv destino.
-			while ((line = bufferedReader.readLine()) != null) {
-				bufferedWriter.write(line);
-				bufferedWriter.newLine();
+
+				String line;
+				// Le cada linha do ficheiro json e rescreve-o no ficheiro json destino.
+				while ((line = bufferedReader.readLine()) != null) {
+					bufferedWriter.write(line);
+					bufferedWriter.newLine();
+				}
+
+			} catch (FileNotFoundException f){
+				f.printStackTrace();
+
 			}
 			
 		} catch (IOException f){
@@ -98,11 +107,6 @@ public class SaveCsv{
 			}
 
 
-
-
-		}
-	}
 }
-
 
 

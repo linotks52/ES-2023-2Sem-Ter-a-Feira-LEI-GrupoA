@@ -1,5 +1,8 @@
 package pt.iscte_iul.ista.ES;
 import org.junit.jupiter.api.Test;
+
+import convert.*;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.File;
@@ -10,7 +13,6 @@ import java.nio.file.Files;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import Convert.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;

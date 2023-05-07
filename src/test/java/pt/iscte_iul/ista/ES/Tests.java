@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.List;
 
-import Load.URLFileDownloader;
+import load.URLFileDownloader;
 
 import java.io.*;
 import java.net.URL;

@@ -1,11 +1,10 @@
 package pt.iscte_iul.ista.ES;
 import org.junit.jupiter.api.Test;
+
+import timetable.CalendarEvent;
+import timetable.showCSV;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-
-
-import Timetable.CalendarEvent;
-import Timetable.showCSV;
 
 import java.io.File;
 import java.io.FileWriter;
