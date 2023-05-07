@@ -27,7 +27,6 @@ public class SaveJson{
 	 * 
 	 * @author JoaoMariaFranco
 	 */
-
 	public static void saveOnline(String username, String repository, String token, String path, String name) 
 			throws IOException{
 		name = name + ".json";
@@ -66,19 +65,28 @@ public class SaveJson{
 		BufferedReader bufferedReader = null;
 		BufferedWriter bufferedWriter= null;
 
+
+
 		name=name+".json";
 
 		dpath=dpath + name;
+
 
 		try {
 			bufferedReader = new BufferedReader(new FileReader(spath));
 			bufferedWriter=new BufferedWriter(new FileWriter(dpath));
 
-			String line;
-			// Le cada linha do ficheiro json e rescreve-o no ficheiro json destino.
-			while ((line = bufferedReader.readLine()) != null) {
-				bufferedWriter.write(line);
-				bufferedWriter.newLine();
+
+				String line;
+				// Le cada linha do ficheiro json e rescreve-o no ficheiro json destino.
+				while ((line = bufferedReader.readLine()) != null) {
+					bufferedWriter.write(line);
+					bufferedWriter.newLine();
+				}
+
+			} catch (FileNotFoundException f){
+				f.printStackTrace();
+
 			}
 			
 		} catch (IOException f){
@@ -98,11 +106,6 @@ public class SaveJson{
 				}
 			}
 
-
-
-
-		}
-	}
 
 }
 
