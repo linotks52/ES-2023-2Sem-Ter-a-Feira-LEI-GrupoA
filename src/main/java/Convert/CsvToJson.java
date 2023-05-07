@@ -27,14 +27,15 @@ public class CsvToJson {
      */
 
     public static File convert(File f){
-    	String[] name = f.getAbsolutePath().split("\\.");
-        File output = new File(name[0]+".json");
+    	//String[] name = f.getName().split("\\.");
+        File output = new File("output.json"); 
         try {
             String csvAsString = new BufferedReader(new FileReader(f.getAbsolutePath())).lines().collect(Collectors.joining("\n"));
             String json = CDL.toJSONArray(csvAsString).toString();
             BufferedWriter bw = new BufferedWriter(new FileWriter(output));
             bw.write(json);
             bw.close();
+            
         } catch (IOException e) {
             e.printStackTrace();
         }

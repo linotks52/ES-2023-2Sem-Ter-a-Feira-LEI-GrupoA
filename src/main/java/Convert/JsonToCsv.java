@@ -27,8 +27,8 @@ public class JsonToCsv {
      * @return the file converted to csv
      */
     static public File convert(File f){
-    	String[] name = f.getAbsolutePath().split("\\.");
-       File output = new File(name[0]+".csv");
+    //	String[] name = f.getAbsolutePath().split("\\.");
+       File output = new File("output.csv"); 
        // InputStream inputStream = JsonToCsv.class.getClassLoader().getResourceAsStream(f.getAbsolutePath());
         try { 
             BufferedReader br = new BufferedReader(new FileReader(f.getAbsolutePath()));
