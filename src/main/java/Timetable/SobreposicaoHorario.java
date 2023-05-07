@@ -55,7 +55,7 @@ public class SobreposicaoHorario {
     }
 
     public static void main(String[] args) throws ParseException, IOException {
-        List<CalendarEvent> eventos = showCSV.showHorario(new File("output.csv"));
+        List<CalendarEvent> eventos = showCSV.showHorario(new File("C:/Users/Utilizador/Desktop/ES2.0/ES-2023-2Sem-Ter-a-Feira-LEI-GrupoA/src/main/resources/output.csv"));
         CalendarEvent b = new CalendarEvent("OLA", "xd", new Date(2022, 5, 12, 15, 30, 0),
                 new Date(2022, 5, 12, 17, 0, 0));
         eventos.add(b);
