@@ -3,6 +3,9 @@ package load;
 import java.io.*;
 import java.net.URL;
 
+import convert.CsvToJson;
+import convert.JsonToCsv;
+
 /**
  * Classe abstrata que contém as funções para importar ficheiros por um url
  * @author tcast
@@ -26,7 +29,6 @@ public abstract class URLFileDownloader {
 
         // Get file name and extension from URL
         String fileName = downloadURL.getFile().substring(downloadURL.getFile().lastIndexOf('/') + 1);
-
         // Create file with original file name and extension
         File outputFile = new File(fileName);
 
@@ -43,7 +45,15 @@ public abstract class URLFileDownloader {
 
         inputStream.close();
         outputStream.close();
-        return outputFile;
+        
+        File csv = new File("output.csv");
+
+        
+       if(fileName.endsWith("json")) {
+        	return JsonToCsv.convert(outputFile);
+        }else {
+        	return JsonToCsv.convert(CsvToJson.convert(outputFile));
+        }
     }
     
 }
