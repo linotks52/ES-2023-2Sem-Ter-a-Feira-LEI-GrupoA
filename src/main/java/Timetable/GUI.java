@@ -7,10 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.*;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,20 +17,21 @@ import Convert.*;
 
 /**
  * @author Douglas Lino
- * GUI que permite ao utilizador carregar ficheiros (local ou URL), salvar ficheiros e fazer conversões de formato.
+ * Classe que permite ao utilizador carregar ficheiros (local ou URL), salvar ficheiros (local ou GITHUB)e fazer conversões de formato.
  */
 	public class GUI extends JFrame implements ActionListener {
 		private JPanel cardPanel;
 	    private CardLayout cardLayout;
-	    private JButton load, upload, save, csvToJson, jsonToCsv, local, online, json, csv, confirm, return1, return2, schedule;
+	    private JButton load, upload, save, csvToJson, jsonToCsv, local, online, confirm, return1, return2, schedule;
 	    private JTextField url, username, repository, name, token;
-	    //private JPasswordField token;
 	    private JFileChooser fc;
 	    private JLabel current, label4, label5, label6, label7;
 	    private JFrame frame;
 	    private File file;
 	    private List<CalendarEvent> events;
 
+	    
+	    
 	    public GUI() {
 	    	cardLayout = new CardLayout();
 	        cardPanel = new JPanel(cardLayout);
@@ -126,18 +124,6 @@ import Convert.*;
 	        card3.add(local, gbc3);
 	        local.addActionListener(this);
 	        
-	        gbc3.gridy++;
-	        json = new JButton("JSON");
-	        json.setVisible(false);
-	        card3.add(json, gbc3);
-	        json.addActionListener(this);
-	        
-	        gbc3.gridx = 2;
-	        csv = new JButton("CS");
-	        csv.setVisible(false);
-	        card3.add(csv, gbc3);
-	        csv.addActionListener(this);
-	        
 	        gbc3.gridy = 1;
 	        online = new JButton("Online");
 	        gbc3.gridx=2;
@@ -172,7 +158,6 @@ import Convert.*;
 	        card3.add(label6, gbc3);
 	        
 	        gbc3.gridx++;
-	        //token = new JPasswordField(10);
 	        token = new JTextField(10);
 	        token.setVisible(false);
 	        card3.add(token, gbc3);
@@ -211,124 +196,147 @@ import Convert.*;
 	        
 	        fc = new JFileChooser();
 	    }
+		/**
+		 * Função para carregar um ficheiro local
+		 */
+			    
+	    public void load() {
+	    	int response = fc.showOpenDialog(null);
+	        if (response == JFileChooser.APPROVE_OPTION) {
+	        	file = fc.getSelectedFile();
+	            current.setText(fc.getSelectedFile().getName());
+	            cardLayout.show(cardPanel, "Card 2");
+	        }
+	    }
+	    
+	    /**
+	     * Função para carregar um ficheiro online (webcal com uma lista de eventos ou ficheiro obtido a partir de um URI)
+	     */
+	    
+	    public void upload() {
+	    	 if (url.getText().isEmpty()) {
+                 JOptionPane.showMessageDialog(frame, "Please enter a url.");
+                 token.requestFocus();
+             }else {
+	    		try {
+	    			if(url.getText().substring(0,6).equals("webcal")) {
+	    				events = WebcalCalendarImporter.importEventsFromWebcal(WebcalCalendarImporter.WebcaltoURI(url.getText()));
+	    				current.setText("Web calendar");
+	    			}else { 
+	    				file = URLFileDownloader.downloadFileFromURL(url.getText());
+	    				current.setText(file.getName());
+	    			}
+		            cardLayout.show(cardPanel, "Card 2");
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+             }
+	    }
+	    
+	    /**
+	     * Função para salvar um ficheiro localmente
+	     */
+	    
+	    public void saveLocal() {
+	    	fc.setCurrentDirectory(new File(System.getProperty("user.home")));
 
+            int result = fc.showSaveDialog(frame);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                String filePath = fc.getSelectedFile().getAbsolutePath();
+                try {
+					SaveJson.saveLocalmente(file.getAbsolutePath(), filePath);
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}   
+            }
+	    }
+	    
+	    /**
+	     * Função para revelar os campos que necessitam de ser preenchidos para salvar online
+	     */
+	    
+	    public void setVisible() {
+    		username.setVisible(true);
+    		token.setVisible(true);
+    		repository.setVisible(true);
+    		name.setVisible(true);
+    		confirm.setVisible(true);
+    		label4.setVisible(true);
+    		label5.setVisible(true);
+    		label6.setVisible(true);
+    		label7.setVisible(true);
+	    }
+	    
+	    /**
+	     * Função para salvar um ficheiro online, apenas funciona se os campos username, name, repository e
+	     * token não forem vazios e estiverem corretos.
+	     */
+	    
+	    public void saveOnline(){
+	   		 if (username.getText().isEmpty()) {
+	             JOptionPane.showMessageDialog(frame, "Please enter your username.");
+	             username.requestFocus();
+	         }
+			 if (name.getText().isEmpty()) {
+	             JOptionPane.showMessageDialog(frame, "Please enter the name.");
+	             name.requestFocus();
+	         }
+			 if (repository.getText().isEmpty()) {
+	             JOptionPane.showMessageDialog(frame, "Please enter the repository.");
+	             repository.requestFocus();
+	         }
+			 if (token.getText().isEmpty()) {
+	             JOptionPane.showMessageDialog(frame, "Please enter your token.");
+	             token.requestFocus();
+	         }
+			 if(!username.getText().isEmpty() || !name.getText().isEmpty() || !repository.getText().isEmpty() || !token.getText().isEmpty()) {
+	    		try {
+					SaveJson.saveOnline(username.getText(), repository.getText(), token.getText(), file.getAbsolutePath(), name.getText());
+				} catch (IOException ioe2) {
+					ioe2.printStackTrace();
+				}
+			 }
+	    }	
+	    
+	    /**
+	     * Função para fazer conversões 
+	     * @param type Sinaliza o tipo da conversão (1 - csv para json, 2 - json para csv)
+	     */
+	    
+	    public void convert(int type) {
+	    	if(type == 1 )
+	    		file = CsvToJson.convert(file);
+	    	else
+	    		file = JsonToCsv.convert(file);
+    		fc.setSelectedFile(file);
+    		current.setText(file.getName());
+	    }
+	    
+	    
 	    public void actionPerformed(ActionEvent e) {
 	    	if(e.getSource() == load) {
-		        int response = fc.showOpenDialog(null);
-		        if (response == JFileChooser.APPROVE_OPTION) {
-		        	file = fc.getSelectedFile();
-		            System.out.println("Selected file: " + fc.getSelectedFile().getName());
-		            current.setText(fc.getSelectedFile().getName());
-		            cardLayout.show(cardPanel, "Card 2");
-		        }
-	    	}else if (e.getSource() == upload){
-	    		System.out.println(url.getText().substring(0,7));
-	    		
-	    		 if (url.getText().isEmpty()) {
-	                 JOptionPane.showMessageDialog(frame, "Please enter a url.");
-	                 token.requestFocus();
-	             }else {
-		    		try {
-		    			if(url.getText().substring(0,6).equals("webcal")) {
-		    				events = WebcalCalendarImporter.importEventsFromWebcal(WebcalCalendarImporter.WebcaltoURI(url.getText()));
-		    				current.setText("Web calendar");
-		    			}else { 
-		    				file = URLFileDownloader.downloadFileFromURL(url.getText());
-		    				current.setText(file.getName());
-		    			}
-			            cardLayout.show(cardPanel, "Card 2");
-					} catch (Exception e2) {
-						e2.printStackTrace();
-					}
-	             }
-
+	    		load();
+	    	}else if (e.getSource() == upload){	    		
+	    		upload();
 	    	}else if(e.getSource() == save) {
 	    		cardLayout.show(cardPanel, "Card 3");
 	    	}else if(e.getSource() == local ) {
-	            fc.setCurrentDirectory(new File(System.getProperty("user.home")));
-
-	            int result = fc.showSaveDialog(frame);
-
-	            if (result == JFileChooser.APPROVE_OPTION) {
-	                String filePath = fc.getSelectedFile().getAbsolutePath();
-	                try {
-						SaveJson.saveLocal(file.getAbsolutePath(), filePath);
-					} catch (IOException e2) {
-						e2.printStackTrace();
-					}
-	                
-	               /* String[] div = filePath.split("\\.");
-	                filePath = div[0];
-	                System.out.println(filePath);
-	                System.out.println("first impact "+div.length);
-	                System.out.println("second impact "+div[0]);
-	                if(e.getSource() == csv) {
-	                	filePath = filePath.concat(".csv");
-	                }else {
-	                	filePath = filePath.concat(".json");
-	                }
-	                try (FileOutputStream fos = new FileOutputStream(filePath)) {
-	                    fos.write(filePath.getBytes());
-	                } catch (IOException ioe) {
-	                    ioe.printStackTrace();
-	                } */
-	                
-	            }
+	           saveLocal();
 	    	}else if(e.getSource() == online) {
-	    		csv.setVisible(false);
-	    		json.setVisible(false);
-	    		username.setVisible(true);
-	    		token.setVisible(true);
-	    		repository.setVisible(true);
-	    		name.setVisible(true);
-	    		confirm.setVisible(true);
-	    		label4.setVisible(true);
-	    		label5.setVisible(true);
-	    		label6.setVisible(true);
-	    		label7.setVisible(true);
+	    		setVisible();
 	    	}else if(e.getSource() == confirm) {
-	    		 if (username.getText().isEmpty()) {
-	                 JOptionPane.showMessageDialog(frame, "Please enter your username.");
-	                 username.requestFocus();
-	             }
-	    		 if (name.getText().isEmpty()) {
-	                 JOptionPane.showMessageDialog(frame, "Please enter the name.");
-	                 name.requestFocus();
-	             }
-	    		 if (repository.getText().isEmpty()) {
-	                 JOptionPane.showMessageDialog(frame, "Please enter the repository.");
-	                 repository.requestFocus();
-	             }
-	    		 if (token.getText().isEmpty()) {
-	                 JOptionPane.showMessageDialog(frame, "Please enter your token.");
-	                 token.requestFocus();
-	             }
-	    		 if(!username.getText().isEmpty() || !name.getText().isEmpty() || !repository.getText().isEmpty() || !token.getText().isEmpty()) {
-		    		try {
-						SaveJson.saveOnline(username.getText(), repository.getText(), token.getText(), file.getAbsolutePath(), name.getText());
-						System.out.println("Done?");
-					} catch (IOException ioe2) {
-						ioe2.printStackTrace();
-					}
-	    		 }
+	    		saveOnline();
 	    	}else if(e.getSource() == csvToJson) {
-	    		System.out.println(file);
-	    		file = CsvToJson.convert(file);
-	    		fc.setSelectedFile(file);
-	    		System.out.println(file);
-	    		current.setText(file.getName());
+	    		convert(1);
 	    	}else if(e.getSource() == jsonToCsv) {
-	    		System.out.println(file);
-	    		file = JsonToCsv.convert(file);
-	    		fc.setSelectedFile(file);
-	    		System.out.println(file);
-	    		current.setText(file.getName());
+	    		convert(2);
 	    	}else if(e.getSource() == return1){
 	            cardLayout.show(cardPanel, "Card 1");
 	    	}else if(e.getSource() == return2) {
 	    		cardLayout.show(cardPanel, "Card 2");
 	    	}else if(e.getSource() == schedule) {
-	    		
+	    		MyLauncher.main(null);
 	    	}
             
 	    }
